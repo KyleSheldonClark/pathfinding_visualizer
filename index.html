@@ -6,6 +6,26 @@
     <title></title>
   </head>
   <body>
-
+    <script type="text/javascript">
+      //createGrid takes in a number of rows and a number of colums and creates a grid of buttons num of rows tall and num of columns wide
+      function createGrid(row, col) {
+        //for each row creates a seperate div
+        for (let i = 0; i < row; i++) {
+          let currentRow = document.createElement('div');
+          let colId = 'a' + i;
+          currentRow.id = colId;
+          document.body.appendChild(currentRow);
+          //for each column creates a button and places it inside the current row's div adds an id and an onclick EventListener
+          for (let j = 0; j < col; j++) {
+            let currentCol = document.createElement('button');
+            let currentColId = '' + i + j;
+            currentCol.id = currentColId;
+            document.getElementById(colId).appendChild(currentCol);
+            currentCol.addEventListener('click', setState);
+          }
+        }
+      }
+    createGrid(10, 30);
+    </script>
   </body>
 </html>
