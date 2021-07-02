@@ -11,15 +11,25 @@
     <button type="button" id="blue"></button>
     <button type="button" id="green"></button>
     <script type="text/javascript">
-      let currMouseState = '';
+      //initialize default mouse state
+      let currMouseState = 'blue';
       function changeMouseState() {
             currMouseState = '' + this.id;
       }
+      //sets the state of a square to the current mouse state
       function setSquareState() {
-        if (currMouseState === 'red' || currMouseState === 'green') {
+        //if square is green or red enable selector, set mouse state to square's value, reset square's value
+        if (this.value === 'red' || this.value === 'green') {
+          document.getElementById(this.value).disabled = false;
+          currMouseState = this.value;
+          this.value = '';
+        } else if (currMouseState === 'red' || currMouseState === 'green') {
           document.getElementById(currMouseState).disabled = true;
           this.value = currMouseState;
           currMouseState = 'blue'
+        } else if (this.value === 'blue') {
+          currMouseState = this.value;
+          this.value = '';
         } else {
           this.value = currMouseState;
         }
@@ -42,7 +52,7 @@
           }
         }
       }
-    createGrid(10, 30);
+    createGrid(20, 70);
     document.getElementById('red').addEventListener('click', changeMouseState);
     document.getElementById('blue').addEventListener('click', changeMouseState);
     document.getElementById('green').addEventListener('click', changeMouseState);
