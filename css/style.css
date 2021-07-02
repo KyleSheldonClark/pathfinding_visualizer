@@ -1,0 +1,11 @@
+button[value="red"] {
+  background-color: red;
+}
+
+button[value="blue"] {
+  background-color: blue;
+}
+
+button[value="green"] {
+  background-color: green;
+}

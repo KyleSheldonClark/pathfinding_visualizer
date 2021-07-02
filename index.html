@@ -6,7 +6,24 @@
     <title></title>
   </head>
   <body>
+    <h1>Grid</h1>
+    <button type="button" id="red"></button>
+    <button type="button" id="blue"></button>
+    <button type="button" id="green"></button>
     <script type="text/javascript">
+      let currMouseState = '';
+      function changeMouseState() {
+            currMouseState = '' + this.id;
+      }
+      function setSquareState() {
+        if (currMouseState === 'red' || currMouseState === 'green') {
+          document.getElementById(currMouseState).disabled = true;
+          this.value = currMouseState;
+          currMouseState = 'blue'
+        } else {
+          this.value = currMouseState;
+        }
+      }
       //createGrid takes in a number of rows and a number of colums and creates a grid of buttons num of rows tall and num of columns wide
       function createGrid(row, col) {
         //for each row creates a seperate div
@@ -21,11 +38,14 @@
             let currentColId = '' + i + j;
             currentCol.id = currentColId;
             document.getElementById(colId).appendChild(currentCol);
-            currentCol.addEventListener('click', setState);
+            currentCol.addEventListener('click', setSquareState);
           }
         }
       }
     createGrid(10, 30);
+    document.getElementById('red').addEventListener('click', changeMouseState);
+    document.getElementById('blue').addEventListener('click', changeMouseState);
+    document.getElementById('green').addEventListener('click', changeMouseState);
     </script>
   </body>
 </html>
