@@ -9,3 +9,8 @@ button[value="blue"] {
 button[value="green"] {
   background-color: green;
 }
+
+button {
+  height: 30px;
+  width: 30px;
+}

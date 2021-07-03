@@ -11,6 +11,10 @@
     <button type="button" id="blue"></button>
     <button type="button" id="green"></button>
     <script type="text/javascript">
+      //down keeps track of wether or not the mouse is down
+      let down = false;
+      document.addEventListener('mousedown', function () {down = true;});
+      document.addEventListener('mouseup', function() {down=false;});
       //initialize default mouse state
       let currMouseState = 'blue';
       function changeMouseState() {
@@ -18,20 +22,23 @@
       }
       //sets the state of a square to the current mouse state
       function setSquareState() {
+        //only run code if mousedown or a click has occured (*possible issues with double clicks)
+        if (down || event.detail > 0) {
         //if square is green or red enable selector, set mouse state to square's value, reset square's value
-        if (this.value === 'red' || this.value === 'green') {
-          document.getElementById(this.value).disabled = false;
-          currMouseState = this.value;
-          this.value = '';
-        } else if (currMouseState === 'red' || currMouseState === 'green') {
-          document.getElementById(currMouseState).disabled = true;
-          this.value = currMouseState;
-          currMouseState = 'blue'
-        } else if (this.value === 'blue') {
-          currMouseState = this.value;
-          this.value = '';
-        } else {
-          this.value = currMouseState;
+          if (this.value === 'red' || this.value === 'green') {
+            document.getElementById(this.value).disabled = false;
+            currMouseState = this.value;
+            this.value = '';
+          } else if (currMouseState === 'red' || currMouseState === 'green') {
+            document.getElementById(currMouseState).disabled = true;
+            this.value = currMouseState;
+            currMouseState = 'blue'
+          } else if (this.value === 'blue') {
+            currMouseState = this.value;
+            this.value = '';
+          } else {
+            this.value = currMouseState;
+          }
         }
       }
       //createGrid takes in a number of rows and a number of colums and creates a grid of buttons num of rows tall and num of columns wide
@@ -48,14 +55,17 @@
             let currentColId = '' + i + j;
             currentCol.id = currentColId;
             document.getElementById(colId).appendChild(currentCol);
+            //*Issue the last square passed does not get set
+            currentCol.addEventListener('mouseout', setSquareState);
             currentCol.addEventListener('click', setSquareState);
           }
         }
       }
-    createGrid(20, 70);
+    createGrid(20, 40);
     document.getElementById('red').addEventListener('click', changeMouseState);
     document.getElementById('blue').addEventListener('click', changeMouseState);
     document.getElementById('green').addEventListener('click', changeMouseState);
+    //if click occurs change all squares the cursor passes until mouseup
     </script>
   </body>
 </html>
