@@ -6,10 +6,11 @@
     <title></title>
   </head>
   <body>
-    <h1>Grid</h1>
+    <h1 id='grid'>Grid</h1>
     <button type="button" id="red"></button>
     <button type="button" id="blue"></button>
     <button type="button" id="green"></button>
+    <button type="button" id="start"></button>
     <script type="text/javascript">
       //down keeps track of wether or not the mouse is down
       let down = false;
@@ -46,7 +47,7 @@
         //for each row creates a seperate div
         for (let i = 0; i < row; i++) {
           let currentRow = document.createElement('div');
-          let colId = 'row ' + i;
+          let colId = 'row-' + i;
           currentRow.id = colId;
           document.body.appendChild(currentRow);
           //for each column creates a button and places it inside the current row's div adds an id and an onclick EventListener
@@ -61,12 +62,51 @@
           }
         }
       }
-      
+      createGrid(20, 40);
+      //test function to find the green squre
+      //*issues
+      //breaks if no green, doesn't show process, start is manually defined instead of startNode
+      function findGreen() {
+        let lastNodesVisited = ['5-20'];
+        let isGreen = false;
+        while(!isGreen) {
+          start:
+          for (let j = 0; j < lastNodesVisited.length; j++) {
+            let currentNode = lastNodesVisited[j];
+            for (let i = 0; i < 4; i++) {
+              let nodeToCheck = currentNode.split('-');
+              let nodeRow = parseInt(nodeToCheck[0]);
+              let nodeCol = parseInt(nodeToCheck[1]);
+              let nodeNow = '';
+              if (i === 0) {
+                nodeNow = document.getElementById((nodeRow-1) + '-' + nodeCol);
+              } else if (i === 1) {
+                nodeNow = document.getElementById(nodeRow + '-' + (nodeCol+1));
+              } else if (i === 2) {
+                nodeNow = document.getElementById((nodeRow+1) + '-' + nodeCol);
+              } else if (i === 3) {
+                nodeNow = document.getElementById(nodeRow + '-' + (nodeCol-1));
+              }
+              //if node does not exist continue
+              if (nodeNow === null) {
+                continue;
+              }
+              if (nodeNow.value === 'green') {
+                isGreen = true;
+                break start;
+              } else if (nodeNow.value !== 'blue') {
+                nodeNow.value = 'blue';
+                lastNodesVisited.push(nodeNow.id);
+              }
+            }
+          }
+        }
+      }
 
-    createGrid(20, 40);
     document.getElementById('red').addEventListener('click', changeMouseState);
     document.getElementById('blue').addEventListener('click', changeMouseState);
     document.getElementById('green').addEventListener('click', changeMouseState);
+    document.getElementById('start').addEventListener('click', findGreen);
     //if click occurs change all squares the cursor passes until mouseup
     </script>
   </body>
