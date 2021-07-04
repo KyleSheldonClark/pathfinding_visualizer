@@ -12,6 +12,7 @@
     <button type="button" id="green"></button>
     <button type="button" id="start"></button>
     <script type="text/javascript">
+      let redNode = '';
       //down keeps track of wether or not the mouse is down
       let down = false;
       document.addEventListener('mousedown', function () {down = true;});
@@ -33,12 +34,15 @@
           } else if (currMouseState === 'red' || currMouseState === 'green') {
             document.getElementById(currMouseState).disabled = true;
             this.value = currMouseState;
-            currMouseState = 'blue'
+            currMouseState = 'blue';
           } else if (this.value === 'blue') {
             currMouseState = this.value;
             this.value = '';
           } else {
             this.value = currMouseState;
+          }
+          if (this.value === 'red') {
+            redNode = this.id;
           }
         }
       }
@@ -67,7 +71,8 @@
       //*issues
       //breaks if no green, doesn't show process, start is manually defined instead of startNode
       function findGreen() {
-        let lastNodesVisited = ['5-20'];
+        document.getElementById('start').disabled = true;
+        let lastNodesVisited = [redNode];
         let isGreen = false;
         while(!isGreen) {
           start:
@@ -87,15 +92,15 @@
               } else if (i === 3) {
                 nodeNow = document.getElementById(nodeRow + '-' + (nodeCol-1));
               }
-              //if node does not exist continue
+              //Important if node does not exist skip
               if (nodeNow === null) {
                 continue;
               }
               if (nodeNow.value === 'green') {
                 isGreen = true;
                 break start;
-              } else if (nodeNow.value !== 'blue') {
-                nodeNow.value = 'blue';
+              } else if (nodeNow.value !== 'blue' && nodeNow.value !== 'red' && nodeNow.value !== 'orange') {
+                nodeNow.value = 'orange';
                 lastNodesVisited.push(nodeNow.id);
               }
             }
