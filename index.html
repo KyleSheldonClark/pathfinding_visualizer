@@ -46,13 +46,13 @@
         //for each row creates a seperate div
         for (let i = 0; i < row; i++) {
           let currentRow = document.createElement('div');
-          let colId = 'a' + i;
+          let colId = 'row ' + i;
           currentRow.id = colId;
           document.body.appendChild(currentRow);
           //for each column creates a button and places it inside the current row's div adds an id and an onclick EventListener
           for (let j = 0; j < col; j++) {
             let currentCol = document.createElement('button');
-            let currentColId = '' + i + j;
+            let currentColId = i + '-' + j;
             currentCol.id = currentColId;
             document.getElementById(colId).appendChild(currentCol);
             //*Issue the last square passed does not get set
@@ -61,6 +61,8 @@
           }
         }
       }
+      
+
     createGrid(20, 40);
     document.getElementById('red').addEventListener('click', changeMouseState);
     document.getElementById('blue').addEventListener('click', changeMouseState);
