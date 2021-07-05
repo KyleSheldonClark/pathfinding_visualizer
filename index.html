@@ -12,6 +12,10 @@
     <button type="button" id="green"></button>
     <button type="button" id="start"></button>
     <script type="text/javascript">
+      //----initialize array of nodes for dijkstra
+      let nodes = [];
+      let nodeIndex = 0;
+      //------------------------------------------
       let redNode = '';
       //down keeps track of wether or not the mouse is down
       let down = false;
@@ -59,6 +63,7 @@
             let currentCol = document.createElement('button');
             let currentColId = i + '-' + j;
             currentCol.id = currentColId;
+            buildDijkstraGraph(currentColId);
             document.getElementById(colId).appendChild(currentCol);
             //*Issue the last square passed does not get set
             currentCol.addEventListener('mouseout', setSquareState);
@@ -66,6 +71,17 @@
           }
         }
       }
+
+      //creates object for every node with a name corresponding to the square's id and places it in nodes array
+      function buildDijkstraGraph(name) {
+        nodes[nodeIndex] = {
+          name: name,
+          uToV: 1,
+          distanceFromStart: Infinity,
+        }
+        nodeIndex++;
+      }
+
       createGrid(20, 40);
       //test function to find the green squre
       //*issues
