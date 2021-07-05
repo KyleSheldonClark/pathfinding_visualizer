@@ -14,9 +14,10 @@
     <script type="text/javascript">
       //----initialize array of nodes for dijkstra
       let nodes = [];
+      let strSet = [];
       let nodeIndex = 0;
       //------------------------------------------
-      let redNode = '';
+      let redNode = '7-20';
       //down keeps track of wether or not the mouse is down
       let down = false;
       document.addEventListener('mousedown', function () {down = true;});
@@ -82,7 +83,21 @@
         nodeIndex++;
       }
 
-      createGrid(20, 40);
+      //----TODO----add default start node if red node doesn't exist
+      function findStart() {
+        for (let i = 0; i < nodes.length; i++) {
+          if (nodes[i].name === redNode) {
+            return i;
+          }
+        }
+      }
+
+      function dijkstra() {
+        let startNodeIndex = findStart();
+        nodes[startNodeIndex].distanceFromStart = 0;
+        console.log(nodes);
+      }
+
       //test function to find the green squre
       //*issues
       //breaks if no green, doesn't show process, start is manually defined instead of startNode
@@ -128,7 +143,9 @@
     document.getElementById('blue').addEventListener('click', changeMouseState);
     document.getElementById('green').addEventListener('click', changeMouseState);
     document.getElementById('start').addEventListener('click', findGreen);
-    //if click occurs change all squares the cursor passes until mouseup
+    
+    createGrid(20, 40);
+    dijkstra();
     </script>
   </body>
 </html>
