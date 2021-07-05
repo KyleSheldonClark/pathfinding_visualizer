@@ -19,6 +19,7 @@
       //------------------------------------------
       let numberOfGridColumns = 40;
       let numberOfGridRows = 20;
+      //----TODO----remove default value after testing
       let redNode = '7-20';
       //down keeps track of wether or not the mouse is down
       let down = false;
@@ -86,12 +87,12 @@
       }
 
       //----add default start node if red node doesn't exist
-      function findStart() {
-        for (let i = 0; i < nodes.length; i++) {
-          if (nodes[i].name === redNode) {
-            return i;
-          }
-        }
+      function findNodeByName(name) {
+        let nodeToCheck = name.split('-');
+        let nodeRow = parseInt(nodeToCheck[0]);
+        let nodeCol = parseInt(nodeToCheck[1]);
+        let nodeId = (nodeRow*numberOfGridColumns) + nodeCol;
+        return nodes[nodeId];
       }
 
       //takes in a node(object) and returns an array containing all adjacent nodes
@@ -128,11 +129,12 @@
       }
 
       function dijkstra() {
-        let startNodeIndex = findStart();
-        nodes[startNodeIndex].distanceFromStart = 0;
+        let startNode = findNodeByName(redNode);
+        startNode.distanceFromStart = 0;
+
 
         let adjacentNodes = getAdjacentNodes(nodes[300]);
-        console.log(adjacentNodes);
+        console.log(nodes);
         /*while (strSet.length < nodes.length) {
 
           let lowestDistance = Infinity;
