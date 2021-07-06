@@ -10,8 +10,8 @@
     <button type="button" id="red"></button>
     <button type="button" id="blue"></button>
     <button type="button" id="green"></button>
-    <button type="button" id="start"></button>
-    <button type="button" id="start-dijkstra"></button>
+    <button type="button" id="start" disabled></button>
+    <button type="button" id="start-dijkstra" disabled></button>
     <script type="text/javascript">
       //----initialize array of nodes for dijkstra
       let nodes = [];
@@ -55,6 +55,10 @@
             redNode = this.id;
           } else if (this.value === 'green') {
             greenNode = this.id
+          }
+          if (greenNode !== '' && redNode !== '') {
+            document.getElementById('start').disabled = false;
+            document.getElementById('start-dijkstra').disabled = false;
           }
         }
       }
@@ -101,6 +105,7 @@
 
       //takes in a node(object) and returns an array containing all adjacent nodes
       //----TODO----Possibly add functionality to check diagonal adjacent nodes as well
+      //----TODO----Bug-Currently checks all adjacent nodes and updates them even if already in stSet
       function updateAdjacentNodes(node) {
         let nodeToCheck = node.name.split('-');
         let nodeRow = parseInt(nodeToCheck[0]);
@@ -155,8 +160,8 @@
             }
           }
           strSet.push(u);
-          //console.log(strSet.length);
-          //console.log(strSet);
+
+          //find better way of checking if green node was found
           let isEnd = updateAdjacentNodes(u);
           if (isEnd) {
             break;
