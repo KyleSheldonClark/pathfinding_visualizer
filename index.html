@@ -124,9 +124,7 @@
             continue;
           }
           adjacentNodeId = adjacentNodeRow*numberOfGridColumns + adjacentNodeCol;
-          console.log('-' + nodes.length);
-          console.log(adjacentNodeId);
-          document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value = 'orange';
+          //document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value = 'orange';
           nodes[adjacentNodeId].distanceFromStart = node.distanceFromStart + nodes[adjacentNodeId].uToV;
           //adjacentNodes.push(nodes[adjacentNodeId]);
         }
