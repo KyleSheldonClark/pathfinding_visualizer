@@ -21,6 +21,7 @@
       let numberOfGridRows = 20;
       //----TODO----remove default value after testing
       let redNode = '7-20';
+      let greenNode = '5-20'
       //down keeps track of wether or not the mouse is down
       let down = false;
       document.addEventListener('mousedown', function () {down = true;});
@@ -96,7 +97,7 @@
       }
 
       //takes in a node(object) and returns an array containing all adjacent nodes
-      //----TODO----Possibly add functionality to check diagonal adjacent nodes as well/Maybe change to also update distance
+      //----TODO----Possibly add functionality to check diagonal adjacent nodes as well
       function updateAdjacentNodes(node) {
         let nodeToCheck = node.name.split('-');
         let nodeRow = parseInt(nodeToCheck[0]);
@@ -119,11 +120,14 @@
             adjacentNodeRow = (nodeRow);
             adjacentNodeCol = (nodeCol-1);
           }
-          if (adjacentNodeRow > numberOfGridRows || adjacentNodeRow < 0 || adjacentNodeCol > numberOfGridColumns || adjacentNodeCol < 0) {
+          if (adjacentNodeRow > numberOfGridRows-1 || adjacentNodeRow < 0 || adjacentNodeCol > numberOfGridColumns-1 || adjacentNodeCol < 0) {
             continue;
           }
           adjacentNodeId = adjacentNodeRow*numberOfGridColumns + adjacentNodeCol;
-          nodes[adjacentNodeId].distanceFromStart = node.distanceFromStart //+ nodes[adjacentNodeId].uToV;
+          console.log('-' + nodes.length);
+          console.log(adjacentNodeId);
+          document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value = 'orange';
+          nodes[adjacentNodeId].distanceFromStart = node.distanceFromStart + nodes[adjacentNodeId].uToV;
           //adjacentNodes.push(nodes[adjacentNodeId]);
         }
       }
@@ -134,7 +138,7 @@
 
 
         //let adjacentNodes = getAdjacentNodes(nodes[300]);
-        /*while (strSet.length < nodes.length) {
+        while (strSet.length < nodes.length) {
 
           let lowestDistance = Infinity;
           let u;
@@ -145,14 +149,15 @@
             }
           }
           strSet.push(u);
-          console.log(strSet.length);
-          if (u.name === '6-20') {
+          //console.log(strSet.length);
+          //console.log(strSet);
+          /*if (u.name === greenNode) {
+            document.getElementById(greenNode).value = blue;
             break;
-          }
-          getAdjacentNodes(u);
+          }*/
+          updateAdjacentNodes(u);
 
-          console.log(strSet);
-        }*/
+        }
       }
 
       //test function to find the green squre
