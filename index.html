@@ -21,8 +21,8 @@
       let numberOfGridColumns = 40;
       let numberOfGridRows = 20;
       //----TODO----remove default value after testing
-      let redNode = '7-20';
-      let greenNode = '5-20'
+      let redNode = '';
+      let greenNode = ''
       //down keeps track of wether or not the mouse is down
       let down = false;
       document.addEventListener('mousedown', function () {down = true;});
@@ -53,6 +53,8 @@
           }
           if (this.value === 'red') {
             redNode = this.id;
+          } else if (this.value === 'green') {
+            greenNode = this.id
           }
         }
       }
@@ -124,11 +126,16 @@
           if (adjacentNodeRow > numberOfGridRows-1 || adjacentNodeRow < 0 || adjacentNodeCol > numberOfGridColumns-1 || adjacentNodeCol < 0) {
             continue;
           }
+
           adjacentNodeId = adjacentNodeRow*numberOfGridColumns + adjacentNodeCol;
-          document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value = 'orange';
+          if (nodes[adjacentNodeId].name === greenNode) {
+            return true;
+          }
           nodes[adjacentNodeId].distanceFromStart = node.distanceFromStart + nodes[adjacentNodeId].uToV;
+          document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value = 'orange';
           //adjacentNodes.push(nodes[adjacentNodeId]);
         }
+        return false;
       }
 
       function dijkstra() {
@@ -150,11 +157,10 @@
           strSet.push(u);
           //console.log(strSet.length);
           //console.log(strSet);
-          /*if (u.name === greenNode) {
-            document.getElementById(greenNode).value = blue;
+          let isEnd = updateAdjacentNodes(u);
+          if (isEnd) {
             break;
-          }*/
-          updateAdjacentNodes(u);
+          }
 
         }
       }
