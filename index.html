@@ -86,7 +86,7 @@
         nodeIndex++;
       }
 
-      //----add default start node if red node doesn't exist
+      //takes in a node name and returns the node it belongs to
       function findNodeByName(name) {
         let nodeToCheck = name.split('-');
         let nodeRow = parseInt(nodeToCheck[0]);
@@ -96,8 +96,8 @@
       }
 
       //takes in a node(object) and returns an array containing all adjacent nodes
-      //----TODO----Possibly add functionality to check diagonal adjacent nodes as well
-      function getAdjacentNodes(node) {
+      //----TODO----Possibly add functionality to check diagonal adjacent nodes as well/Maybe change to also update distance
+      function updateAdjacentNodes(node) {
         let nodeToCheck = node.name.split('-');
         let nodeRow = parseInt(nodeToCheck[0]);
         let nodeCol = parseInt(nodeToCheck[1]);
@@ -123,9 +123,9 @@
             continue;
           }
           adjacentNodeId = adjacentNodeRow*numberOfGridColumns + adjacentNodeCol;
-          adjacentNodes.push(nodes[adjacentNodeId]);
+          nodes[adjacentNodeId].distanceFromStart = node.distanceFromStart //+ nodes[adjacentNodeId].uToV;
+          //adjacentNodes.push(nodes[adjacentNodeId]);
         }
-        return adjacentNodes;
       }
 
       function dijkstra() {
@@ -133,21 +133,25 @@
         startNode.distanceFromStart = 0;
 
 
-        let adjacentNodes = getAdjacentNodes(nodes[300]);
-        console.log(nodes);
+        //let adjacentNodes = getAdjacentNodes(nodes[300]);
         /*while (strSet.length < nodes.length) {
 
           let lowestDistance = Infinity;
-          let u = {};
+          let u;
           for (let i = 0; i < nodes.length; i++) {
-            if (nodes[i].distanceFromStart <= lowestDistance && !strSet.includes(nodes[i])) {
+            if (nodes[i].distanceFromStart < lowestDistance && !strSet.includes(nodes[i])) {
               lowestDistance = nodes[i].distanceFromStart;
               u = nodes[i];
             }
           }
           strSet.push(u);
+          console.log(strSet.length);
+          if (u.name === '6-20') {
+            break;
+          }
+          getAdjacentNodes(u);
 
-
+          console.log(strSet);
         }*/
       }
 
