@@ -11,6 +11,7 @@
     <button type="button" id="blue"></button>
     <button type="button" id="green"></button>
     <button type="button" id="start"></button>
+    <button type="button" id="start-dijkstra"></button>
     <script type="text/javascript">
       //----initialize array of nodes for dijkstra
       let nodes = [];
@@ -124,7 +125,7 @@
             continue;
           }
           adjacentNodeId = adjacentNodeRow*numberOfGridColumns + adjacentNodeCol;
-          //document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value = 'orange';
+          document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value = 'orange';
           nodes[adjacentNodeId].distanceFromStart = node.distanceFromStart + nodes[adjacentNodeId].uToV;
           //adjacentNodes.push(nodes[adjacentNodeId]);
         }
@@ -162,7 +163,6 @@
       //*issues
       //breaks if no green, doesn't show process, start is manually defined instead of startNode
       createGrid(numberOfGridRows, numberOfGridColumns);
-      dijkstra();
       function findGreen() {
         document.getElementById('start').disabled = true;
         let lastNodesVisited = [redNode];
@@ -205,6 +205,7 @@
     document.getElementById('blue').addEventListener('click', changeMouseState);
     document.getElementById('green').addEventListener('click', changeMouseState);
     document.getElementById('start').addEventListener('click', findGreen);
+    document.getElementById('start-dijkstra').addEventListener('click', dijkstra);
     //if click occurs change all squares the cursor passes until mouseup
     </script>
   </body>
