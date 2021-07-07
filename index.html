@@ -17,12 +17,14 @@
       let nodes = [];
       let strSet = [];
       let nodeIndex = 0;
+      //counter for dijkstra animation setTimeout calculation
+      let counter = 0;
       //------------------------------------------
       let numberOfGridColumns = 40;
       let numberOfGridRows = 20;
       //----TODO----remove default value after testing
       let redNode = '';
-      let greenNode = ''
+      let greenNode = '';
       //down keeps track of wether or not the mouse is down
       let down = false;
       document.addEventListener('mousedown', function () {down = true;});
@@ -107,6 +109,7 @@
       //----TODO----Possibly add functionality to check diagonal adjacent nodes as well
       //----TODO----Bug-Currently checks all adjacent nodes and updates them even if already in stSet
       function updateAdjacentNodes(node) {
+
         let nodeToCheck = node.name.split('-');
         let nodeRow = parseInt(nodeToCheck[0]);
         let nodeCol = parseInt(nodeToCheck[1]);
@@ -131,16 +134,24 @@
           if (adjacentNodeRow > numberOfGridRows-1 || adjacentNodeRow < 0 || adjacentNodeCol > numberOfGridColumns-1 || adjacentNodeCol < 0) {
             continue;
           }
-
           adjacentNodeId = adjacentNodeRow*numberOfGridColumns + adjacentNodeCol;
           if (nodes[adjacentNodeId].name === greenNode) {
             return true;
           }
           nodes[adjacentNodeId].distanceFromStart = node.distanceFromStart + nodes[adjacentNodeId].uToV;
-          document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value = 'orange';
+
+          //*Bug for some reason setTimeout excludes all ids ending in 39 ex: n-39 and doesnt update the value
+          //*also for some reason when greenNode is on the right side program stops 2 nodes before if its on left it stops at the greenNode
+          //instead of passing an anonymous function passing a named function as parameters fixed both issues
+          setTimeout(updateNodeValue, counter*10, adjacentNodeRow, adjacentNodeCol)
           //adjacentNodes.push(nodes[adjacentNodeId]);
+          counter++;
         }
         return false;
+      }
+
+      function updateNodeValue(adjacentNodeRow, adjacentNodeCol) {
+        document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value = 'orange';
       }
 
       function dijkstra() {
