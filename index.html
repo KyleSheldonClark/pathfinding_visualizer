@@ -90,6 +90,7 @@
       function buildDijkstraGraph(name) {
         nodes[nodeIndex] = {
           name: name,
+          //nameToPrevious id of vertex last vertex
           uToV: 1,
           distanceFromStart: Infinity,
         }
@@ -138,7 +139,13 @@
           if (nodes[adjacentNodeId].name === greenNode) {
             return true;
           }
-          nodes[adjacentNodeId].distanceFromStart = node.distanceFromStart + nodes[adjacentNodeId].uToV;
+
+          //**Updates every time should only update if node.distanceFromStart + nodes[adjacentNodeId].uToV is less than the current nodes[adjacentNodeId].distanceFromStart
+          //also if new distance is smaller change the previous node id to node
+          let distanceToCheck = node.distanceFromStart + nodes[adjacentNodeId].uToV;
+          if (nodes[adjacentNodeId].distanceFromStart > distanceToCheck) {
+            nodes[adjacentNodeId].distanceFromStart = distanceToCheck;
+          }
 
           //*Bug for some reason setTimeout excludes all ids ending in 39 ex: n-39 and doesnt update the value
           //*also for some reason when greenNode is on the right side program stops 2 nodes before if its on left it stops at the greenNode
@@ -179,6 +186,7 @@
           }
 
         }
+        console.log(strSet);
       }
 
       //test function to find the green squre
