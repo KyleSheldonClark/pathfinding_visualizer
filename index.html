@@ -135,9 +135,6 @@
             continue;
           }
           adjacentNodeId = adjacentNodeRow*numberOfGridColumns + adjacentNodeCol;
-          if (nodes[adjacentNodeId].name === greenNode) {
-            return true;
-          }
 
 
           let squareValue = document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value;
@@ -147,6 +144,10 @@
             if (nodes[adjacentNodeId].distanceFromStart > distanceToCheck) {
               nodes[adjacentNodeId].distanceFromStart = distanceToCheck;
               nodes[adjacentNodeId].closestNode = node.name;
+            }
+            if (nodes[adjacentNodeId].name === greenNode) {
+              setTimeout(getShortestPath, counter*10, nodes[adjacentNodeId]);
+              return true;
             }
 
             //*Bug for some reason setTimeout excludes all ids ending in 39 ex: n-39 and doesnt update the value
@@ -164,8 +165,19 @@
         document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value = 'orange';
       }
 
-      //calculate shortest path
-      //animate shortest path
+      function getShortestPath(node) {
+        let currentNode = node;
+        let shortestPath = [];
+        while(currentNode !== redNode) {
+          console.log(currentNode);
+          shortestPath.push(currentNode);
+          document.getElementById(currentNode.closestNode).value = 'yellow';
+          currentNode = findNodeByName(currentNode.closestNode);
+        }
+        console.log(shortestPath);
+      }
+
+
       function dijkstra() {
         let startNode = findNodeByName(redNode);
         startNode.distanceFromStart = 0;
