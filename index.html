@@ -90,7 +90,7 @@
       function buildDijkstraGraph(name) {
         nodes[nodeIndex] = {
           name: name,
-          //nameToPrevious id of vertex last vertex
+          closestNode: '',
           uToV: 1,
           distanceFromStart: Infinity,
         }
@@ -145,6 +145,7 @@
           let distanceToCheck = node.distanceFromStart + nodes[adjacentNodeId].uToV;
           if (nodes[adjacentNodeId].distanceFromStart > distanceToCheck) {
             nodes[adjacentNodeId].distanceFromStart = distanceToCheck;
+            nodes[adjacentNodeId].closestNode = node.name;
           }
 
           //*Bug for some reason setTimeout excludes all ids ending in 39 ex: n-39 and doesnt update the value
@@ -180,6 +181,7 @@
           strSet.push(u);
 
           //find better way of checking if green node was found
+          //currently doesn't add green node to strSet
           let isEnd = updateAdjacentNodes(u);
           if (isEnd) {
             break;
