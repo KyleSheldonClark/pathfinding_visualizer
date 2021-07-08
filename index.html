@@ -140,20 +140,22 @@
             return true;
           }
 
-          //**Updates every time should only update if node.distanceFromStart + nodes[adjacentNodeId].uToV is less than the current nodes[adjacentNodeId].distanceFromStart
-          //also if new distance is smaller change the previous node id to node
-          let distanceToCheck = node.distanceFromStart + nodes[adjacentNodeId].uToV;
-          if (nodes[adjacentNodeId].distanceFromStart > distanceToCheck) {
-            nodes[adjacentNodeId].distanceFromStart = distanceToCheck;
-            nodes[adjacentNodeId].closestNode = node.name;
-          }
+          let isBlue = (document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value === 'blue');
+          if (!isBlue) {
+            //update adjacent nodes distanceFromStart and closestNode if the new distanceFromStart is less than the current distanceFromStart
+            let distanceToCheck = node.distanceFromStart + nodes[adjacentNodeId].uToV;
+            if (nodes[adjacentNodeId].distanceFromStart > distanceToCheck) {
+              nodes[adjacentNodeId].distanceFromStart = distanceToCheck;
+              nodes[adjacentNodeId].closestNode = node.name;
+            }
 
-          //*Bug for some reason setTimeout excludes all ids ending in 39 ex: n-39 and doesnt update the value
-          //*also for some reason when greenNode is on the right side program stops 2 nodes before if its on left it stops at the greenNode
-          //instead of passing an anonymous function passing a named function as parameters fixed both issues
-          setTimeout(updateNodeValue, counter*10, adjacentNodeRow, adjacentNodeCol)
-          //adjacentNodes.push(nodes[adjacentNodeId]);
-          counter++;
+            //*Bug for some reason setTimeout excludes all ids ending in 39 ex: n-39 and doesnt update the value
+            //*also for some reason when greenNode is on the right side program stops 2 nodes before if its on left it stops at the greenNode
+            //instead of passing an anonymous function passing a named function as parameters fixed both issues
+            setTimeout(updateNodeValue, counter*10, adjacentNodeRow, adjacentNodeCol)
+            //adjacentNodes.push(nodes[adjacentNodeId]);
+            counter++;
+          }
         }
         return false;
       }
@@ -162,6 +164,7 @@
         document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value = 'orange';
       }
 
+      
       function dijkstra() {
         let startNode = findNodeByName(redNode);
         startNode.distanceFromStart = 0;
