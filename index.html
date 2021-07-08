@@ -108,7 +108,6 @@
 
       //takes in a node(object) and returns an array containing all adjacent nodes
       //----TODO----Possibly add functionality to check diagonal adjacent nodes as well
-      //----TODO----Bug-Currently checks all adjacent nodes and updates them even if already in stSet
       function updateAdjacentNodes(node) {
 
         let nodeToCheck = node.name.split('-');
@@ -140,8 +139,9 @@
             return true;
           }
 
-          let isBlue = (document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value === 'blue');
-          if (!isBlue) {
+
+          let squareValue = document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value;
+          if (squareValue !== 'red' & squareValue !== 'blue') {
             //update adjacent nodes distanceFromStart and closestNode if the new distanceFromStart is less than the current distanceFromStart
             let distanceToCheck = node.distanceFromStart + nodes[adjacentNodeId].uToV;
             if (nodes[adjacentNodeId].distanceFromStart > distanceToCheck) {
@@ -164,7 +164,8 @@
         document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value = 'orange';
       }
 
-      
+      //calculate shortest path
+      //animate shortest path
       function dijkstra() {
         let startNode = findNodeByName(redNode);
         startNode.distanceFromStart = 0;
