@@ -87,9 +87,10 @@
         }
       }
 
-      //works ok but running dijkstra's again after grid is reset is very slow
+      
       //resets all square values, dijkstra grid, and strSet
       function resetGrid() {
+        counter = 0;
         index = 0;
         for (let i = 0; i < numberOfGridRows; i++) {
           for (let j = 0; j < numberOfGridColumns; j++) {
