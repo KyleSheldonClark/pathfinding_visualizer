@@ -1,3 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.navigation {
+  background-color: blue;
+  height: 100vh;
+  width: 10vw;
+}
+
+
+
 button[value="red"] {
   background-color: red;
 }
@@ -20,13 +33,32 @@ button[value="orange"] {
 }
 
 button {
-  height: 30px;
-  width: 30px;
+  height: 2vw;
+  width: 2vw;
   background-color: rgba(177, 0, 232, 0.4);
   border: 1px solid white;
   vertical-align: top;
   margin: 0;
   padding: 0;
+}
+
+
+.navigation {
+  float: left;
+  margin-right: 2vw;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 6vh;
+}
+
+.grid {
+  display: block;
+  padding-top: 10vh;
 }
 
 @keyframes jump {
