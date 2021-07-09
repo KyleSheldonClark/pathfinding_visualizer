@@ -87,13 +87,23 @@
         }
       }
 
-
+      //works ok but running dijkstra's again after grid is reset is very slow
+      //resets all square values, dijkstra grid, and strSet
       function resetGrid() {
+        index = 0;
         for (let i = 0; i < numberOfGridRows; i++) {
           for (let j = 0; j < numberOfGridColumns; j++) {
             updateNodeValue(i, j, '');
+            let currentNode = findNodeByName(i+'-'+j);
+            currentNode.closestNode = '';
+            currentNode.distanceFromStart = Infinity;
           }
         }
+        strSet = [];
+        document.getElementById('red').disabled = false;
+        document.getElementById('green').disabled = false;
+        document.getElementById('start').disabled = false;
+        document.getElementById('reset').disabled = true;
       }
 
       //creates object for every node with a name corresponding to the square's id and places it in nodes array
@@ -179,12 +189,10 @@
         let currentNode = node;
         let shortestPath = [];
         while(currentNode !== redNode) {
-          console.log(currentNode);
           shortestPath.push(currentNode);
           document.getElementById(currentNode.closestNode).value = 'yellow';
           currentNode = findNodeByName(currentNode.closestNode);
         }
-        console.log(shortestPath);
       }
 
 
@@ -210,11 +218,11 @@
           //currently doesn't add green node to strSet
           let isEnd = updateAdjacentNodes(u);
           if (isEnd) {
+            document.getElementById('reset').disabled = false;
             break;
           }
 
         }
-        console.log(strSet);
       }
 
       //test function to find the green squre
