@@ -42,6 +42,17 @@ button {
   padding: 0;
 }
 
+#red {
+  background-color: red;
+}
+
+#blue {
+  background-color: blue;
+}
+
+#green {
+  background-color: green;
+}
 
 .navigation {
   float: left;
@@ -49,11 +60,15 @@ button {
 }
 
 .action-buttons {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-around;
   margin-top: 6vh;
+}
+
+.action-buttons h2 {
+  font-size: 1.5vw;
 }
 
 .grid {
