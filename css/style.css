@@ -22,6 +22,11 @@ button[value="orange"] {
 button {
   height: 30px;
   width: 30px;
+  background-color: rgba(177, 0, 232, 0.4);
+  border: 1px solid white;
+  vertical-align: top;
+  margin: 0;
+  padding: 0;
 }
 
 @keyframes jump {
