@@ -12,6 +12,7 @@
     <button type="button" id="green"></button>
     <button type="button" id="start" disabled></button>
     <button type="button" id="start-dijkstra" disabled></button>
+    <button type="button" id="reset"></button>
     <script type="text/javascript">
       //----initialize array of nodes for dijkstra
       let nodes = [];
@@ -20,7 +21,7 @@
       //counter for dijkstra animation setTimeout calculation
       let counter = 0;
       //------------------------------------------
-      let numberOfGridColumns = 40;
+      let numberOfGridColumns = 43;
       let numberOfGridRows = 20;
       //----TODO----remove default value after testing
       let redNode = '';
@@ -82,6 +83,15 @@
             //*Issue the last square passed does not get set
             currentCol.addEventListener('mouseout', setSquareState);
             currentCol.addEventListener('click', setSquareState);
+          }
+        }
+      }
+
+
+      function resetGrid() {
+        for (let i = 0; i < numberOfGridRows; i++) {
+          for (let j = 0; j < numberOfGridColumns; j++) {
+            updateNodeValue(i, j, '');
           }
         }
       }
@@ -153,7 +163,7 @@
             //*Bug for some reason setTimeout excludes all ids ending in 39 ex: n-39 and doesnt update the value
             //*also for some reason when greenNode is on the right side program stops 2 nodes before if its on left it stops at the greenNode
             //instead of passing an anonymous function passing a named function as parameters fixed both issues
-            setTimeout(updateNodeValue, counter*10, adjacentNodeRow, adjacentNodeCol)
+            setTimeout(updateNodeValue, counter*10, adjacentNodeRow, adjacentNodeCol, 'orange')
             //adjacentNodes.push(nodes[adjacentNodeId]);
             counter++;
           }
@@ -161,8 +171,8 @@
         return false;
       }
 
-      function updateNodeValue(adjacentNodeRow, adjacentNodeCol) {
-        document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value = 'orange';
+      function updateNodeValue(nodeRow, nodeCol, value) {
+        document.getElementById(nodeRow + '-' + nodeCol).value = value;
       }
 
       function getShortestPath(node) {
@@ -254,6 +264,7 @@
     document.getElementById('green').addEventListener('click', changeMouseState);
     document.getElementById('start').addEventListener('click', findGreen);
     document.getElementById('start-dijkstra').addEventListener('click', dijkstra);
+    document.getElementById('reset').addEventListener('click', resetGrid);
     //if click occurs change all squares the cursor passes until mouseup
     </script>
   </body>
