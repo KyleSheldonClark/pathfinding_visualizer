@@ -267,10 +267,13 @@
       function recursiveDivMaze() {
         if (numberOfGridColumns > numberOfGridRows) {
           let rand1 = Math.floor(Math.random()*numberOfGridColumns);
+          let rand2 = Math.floor(Math.random()*numberOfGridRows);
+
           for (let i = 0; i < numberOfGridRows; i++) {
             console.log(i+'-'+rand1);
             document.getElementById(i+'-'+rand1).value = 'blue';
           }
+          document.getElementById(rand2+'-'+rand1).value = '';
         }
       }
 
