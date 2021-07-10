@@ -21,6 +21,9 @@
         <div class="">
           <h2>Target:</h2><button type="button" class="action-buttons" id="green"></button>
         </div>
+        <div class="">
+          <h2>Maze:</h2><button type="button" class="action-buttons" id="maze"></button>
+        </div>
         <!--<div class="">
           <button type="button" class="action-buttons" id="start" disabled></button>
         </div>-->
@@ -248,6 +251,29 @@
         }
       }
 
+
+      //Maze
+      /*
+      func1
+        if num of columns > numOfRows
+          choose random number between 0 and num of columns
+          for every square with a column number that equals that number
+            set square value to blue
+          choose random number between 0 and num of rows
+          set square rand2-rand1 value to ''
+        from rand1 to num of columns repeat above
+      */
+
+      function recursiveDivMaze() {
+        if (numberOfGridColumns > numberOfGridRows) {
+          let rand1 = Math.floor(Math.random()*numberOfGridColumns);
+          for (let i = 0; i < numberOfGridRows; i++) {
+            console.log(i+'-'+rand1);
+            document.getElementById(i+'-'+rand1).value = 'blue';
+          }
+        }
+      }
+
       //test function to find the green squre
       //*issues
       //breaks if no green, doesn't show process, start is manually defined instead of startNode
@@ -293,6 +319,7 @@
     document.getElementById('red').addEventListener('click', changeMouseState);
     document.getElementById('blue').addEventListener('click', changeMouseState);
     document.getElementById('green').addEventListener('click', changeMouseState);
+    document.getElementById('maze').addEventListener('click', recursiveDivMaze);
     //document.getElementById('start').addEventListener('click', findGreen);
     document.getElementById('start-dijkstra').addEventListener('click', dijkstra);
     document.getElementById('reset').addEventListener('click', resetGrid);
