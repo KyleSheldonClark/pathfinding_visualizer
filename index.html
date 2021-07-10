@@ -21,9 +21,9 @@
         <div class="">
           <h2>Target:</h2><button type="button" class="action-buttons" id="green"></button>
         </div>
-        <div class="">
+        <!--<div class="">
           <button type="button" class="action-buttons" id="start" disabled></button>
-        </div>
+        </div>-->
         <div class="">
           <button type="button" class="action-buttons" id="start-dijkstra" disabled>Visualize Dijkstra</button>
         </div>
@@ -253,7 +253,7 @@
       //breaks if no green, doesn't show process, start is manually defined instead of startNode
       createGrid(numberOfGridRows, numberOfGridColumns);
       function findGreen() {
-        document.getElementById('start').disabled = true;
+        //document.getElementById('start').disabled = true;
         let lastNodesVisited = [redNode];
         let isGreen = false;
         while(!isGreen) {
@@ -293,7 +293,7 @@
     document.getElementById('red').addEventListener('click', changeMouseState);
     document.getElementById('blue').addEventListener('click', changeMouseState);
     document.getElementById('green').addEventListener('click', changeMouseState);
-    document.getElementById('start').addEventListener('click', findGreen);
+    //document.getElementById('start').addEventListener('click', findGreen);
     document.getElementById('start-dijkstra').addEventListener('click', dijkstra);
     document.getElementById('reset').addEventListener('click', resetGrid);
     //if click occurs change all squares the cursor passes until mouseup
