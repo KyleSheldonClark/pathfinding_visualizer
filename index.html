@@ -254,6 +254,66 @@
 
       //Maze
       /*
+      list of sections
+
+      sections = [{
+      width:
+      height:
+      xstart
+      xend
+      ystart
+      yend
+    }]
+      xstart
+      ystart
+      xend
+      yend
+      if  horizontal
+        xend = xend
+        yend = wall(row)
+        xstart = xstart
+        ystart = ystart
+        if height - wall > 3
+          xstart = xstart
+          ystart = ystart
+          xend = xend
+          yend = wall
+          add width, height - wall to sections
+        if wall > 3
+          xstart = xstart
+          ystart = wall
+          xend = xend
+          yend = yend
+          add width, wall to sections
+      if vertical
+          if width - wall > 3
+          xstart = wall
+          ystart = ystart
+          xend = xend
+          yend = yend
+          add width-wall, height
+        if wall > 3
+          xstart = xstart
+          ystart = ystart
+          xend = wall
+          yend = yend
+          add wall, height
+
+      function (orientation, section)
+        choose random number between 0 and section.width
+        choose random number between 0 and section.height
+
+        for every square with a column number that equals that number
+          set square value to blue
+        set square rand2-rand1 value to ''
+        do above
+        remove current section from sections
+        if sections is empty
+          end
+        choose random section from sections
+        divide(orientation(randSection), section);
+
+
       func1
         if num of columns > numOfRows
           choose random number between 0 and num of columns
@@ -263,18 +323,59 @@
           set square rand2-rand1 value to ''
         from rand1 to num of columns repeat above
       */
-
-      function recursiveDivMaze() {
-        if (numberOfGridColumns > numberOfGridRows) {
-          let rand1 = Math.floor(Math.random()*numberOfGridColumns);
-          let rand2 = Math.floor(Math.random()*numberOfGridRows);
-
-          for (let i = 0; i < numberOfGridRows; i++) {
-            console.log(i+'-'+rand1);
-            document.getElementById(i+'-'+rand1).value = 'blue';
-          }
-          document.getElementById(rand2+'-'+rand1).value = '';
+      let sectionsToBuild = [
+        {
+          width: numberOfGridColumns,
+          height: numberOfGridRows,
+          xstart: 0,
+          ystart: 0,
+          xend: numberOfGridColumns-1,
+          yend: numberOfGridRows-1
         }
+      ];
+
+      function recursiveDivision(orientation, section) {
+
+      }
+
+      /*function division(orientation, numberOfRows, numberOfCols) {
+        if (numberOfRows < 3 || numberOfCols < 3) {
+          return;
+        }
+        let randRow = Math.floor(Math.random()*numberOfRows);
+        console.log(randRow)
+        let randCol = Math.floor(Math.random()*numberOfCols);
+        if (orientation === 'horizontal') {
+          for (let i = 0; i < numberOfCols; i++) {
+            //console.log(i+'-'+rand1);
+            document.getElementById(randRow+'-'+i).value = 'blue';
+          }
+          document.getElementById(randRow+'-'+randCol).value = '';
+          division(selectOrientation(numberOfCols, randRow), randRow, numberOfCols);
+        } else if (orientation === 'vertical') {
+          for (let i = 0; i < numberOfRows; i++) {
+            //console.log(i+'-'+rand1);
+            document.getElementById(i+'-'+randCol).value = 'blue';
+          }
+          document.getElementById(randRow+'-'+randCol).value = '';
+          division(selectOrientation(randCol, numberOfRows), numberOfRows, randCol);
+        }
+      }*/
+
+      function selectOrientation(width, height) {
+        if (width > height) {
+          return 'vertical';
+        } else if (width < height) {
+          return 'horizontal';
+        } else {
+          return 'vertical';
+        }
+      }
+      function doSomething() {
+
+          division(selectOrientation(numberOfGridColumns, numberOfGridRows), numberOfGridRows, numberOfGridColumns);
+
+        //recursiveDivMaze();
       }
 
       //test function to find the green squre
@@ -322,7 +423,7 @@
     document.getElementById('red').addEventListener('click', changeMouseState);
     document.getElementById('blue').addEventListener('click', changeMouseState);
     document.getElementById('green').addEventListener('click', changeMouseState);
-    document.getElementById('maze').addEventListener('click', recursiveDivMaze);
+    document.getElementById('maze').addEventListener('click', recursiveDivision(selectOrientation(sectionsToBuild[0].width, sectionsToBuild[0].height), sectionsToBuild[0]));
     //document.getElementById('start').addEventListener('click', findGreen);
     document.getElementById('start-dijkstra').addEventListener('click', dijkstra);
     document.getElementById('reset').addEventListener('click', resetGrid);
