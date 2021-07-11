@@ -325,8 +325,8 @@
       */
       let sectionsToBuild = [
         {
-          width: 6,
-          height: 12,
+          width: numberOfGridColumns,
+          height: numberOfGridRows,
           xstart: 0,
           ystart: 0,
           xend: numberOfGridColumns-1,
@@ -405,6 +405,14 @@
             });
           }
         }
+        //remove current section from sectionsToBuild
+        //sectionsToBuild.splice(0,1);
+        //if all sections have been built exit function
+        if (sectionsToBuild.length === 0) {
+          return;
+        }
+        console.log(sectionsToBuild);
+        //recursiveDivision(selectOrientation(sectionsToBuild[0].width, sectionsToBuild[0].height), sectionsToBuild[0]);
       }
 
       /*function division(orientation, numberOfRows, numberOfCols) {
