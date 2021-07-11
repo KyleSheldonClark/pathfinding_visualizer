@@ -325,8 +325,8 @@
       */
       let sectionsToBuild = [
         {
-          width: numberOfGridColumns,
-          height: numberOfGridRows,
+          width: 6,
+          height: 12,
           xstart: 0,
           ystart: 0,
           xend: numberOfGridColumns-1,
@@ -338,15 +338,72 @@
         let randomRow = Math.floor(Math.random() * (section.yend-section.ystart) + section.ystart);
         let randomColumn = Math.floor(Math.random() * (section.xend-section.xstart) + section.xstart);
 
+        let additionalWidth = 0;
+        let additionalHeight = 0;
+        if (section.xstart === 0) {
+          additionalWidth = 1;
+        }
+        if (section.ystart === 0) {
+          additionalHeight = 1;
+        }
+
         if (orientation === 'horizontal') {
           //Build wall
           for (let i = section.xstart; i < section.xend; i++) {
-            document.getElementById(randRow+'-'+i).value = 'blue';
+            document.getElementById(randomRow+'-'+i).value = 'blue';
           }
           //Build door
-          document.getElementById(randRow+'-'+randomColumn).value = '';
+          document.getElementById(randomRow+'-'+randomColumn).value = '';
 
+          if (randomRow > 3) {
+            sectionsToBuild.push({
+              width: section.width,
+              height: randomRow + additionalHeight,
+              xstart: section.xstart,
+              ystart: section.ystart,
+              xend: section.xend,
+              yend: randomRow
+            });
+          }
+          if (section.height - randomRow > 3) {
+            sectionsToBuild.push({
+              width: section.width,
+              height: (section.yend - randomRow),
+              xstart: section.xstart,
+              ystart: randomRow,
+              xend: section.xend,
+              yend: section.yend
+            });
+          }
+        }
+        if (orientation === 'vertical') {
+          //Build wall
+          for (let i = section.ystart; i < section.yend; i++) {
+            document.getElementById(i+'-'+randomColumn).value = 'blue';
+          }
+          //Build door
+          document.getElementById(randomRow+'-'+randomColumn).value = '';
 
+          if (randomColumn > 3) {
+            sectionsToBuild.push({
+              width: randomColumn + additionalWidth,
+              height: section.height,
+              xstart: section.xstart,
+              ystart: section.ystart,
+              xend: randomColumn,
+              yend: section.yend
+            });
+          }
+          if (section.width - randomColumn > 3) {
+            sectionsToBuild.push({
+              width: (section.xend - randomColumn),
+              height: section.height,
+              xstart: randomColumn,
+              ystart: section.ystart,
+              xend: section.xend,
+              yend: section.yend
+            });
+          }
         }
       }
 
