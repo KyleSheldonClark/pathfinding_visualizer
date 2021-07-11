@@ -335,7 +335,19 @@
       ];
 
       function recursiveDivision(orientation, section) {
+        let randomRow = Math.floor(Math.random() * (section.yend-section.ystart) + section.ystart);
+        let randomColumn = Math.floor(Math.random() * (section.xend-section.xstart) + section.xstart);
 
+        if (orientation === 'horizontal') {
+          //Build wall
+          for (let i = section.xstart; i < section.xend; i++) {
+            document.getElementById(randRow+'-'+i).value = 'blue';
+          }
+          //Build door
+          document.getElementById(randRow+'-'+randomColumn).value = '';
+
+
+        }
       }
 
       /*function division(orientation, numberOfRows, numberOfCols) {
