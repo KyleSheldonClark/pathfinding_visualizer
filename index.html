@@ -10,7 +10,7 @@
   </head>
   <body>
     <nav class="navigation">
-      <h1 id='grid'>Grid</h1>
+      <h1 id='grid'>Pathfinding <br>Visualizer</h1>
       <div class="action-buttons">
         <div class="">
           <h2>Source:</h2><button type="button" class="action-buttons" id="red"></button>
@@ -21,18 +21,14 @@
         <div class="">
           <h2>Target:</h2><button type="button" class="action-buttons" id="green"></button>
         </div>
-        <div class="">
-          <h2>Maze:</h2><button type="button" class="action-buttons" id="maze"></button>
-        </div>
         <!--<div class="">
           <button type="button" class="action-buttons" id="start" disabled></button>
         </div>-->
-        <div class="">
-          <button type="button" class="action-buttons" id="start-dijkstra" disabled>Visualize Dijkstra</button>
-        </div>
-        <div class="">
-          <button type="button" class="action-buttons" id="reset">Reset</button>
-        </div>
+      </div>
+      <div class="grid-visuals">
+        <button type="button"  id="maze">Build Maze</button>
+        <button type="button"  id="start-dijkstra" disabled>Visualize Dijkstra</button>
+        <button type="button"  id="reset">Reset</button>
       </div>
 
     </nav>
@@ -335,8 +331,9 @@
       ];
 
       function recursiveDivision(orientation, section) {
-        let randomRow = Math.floor(Math.random() * (section.yend-section.ystart) + section.ystart);
-        let randomColumn = Math.floor(Math.random() * (section.xend-section.xstart) + section.xstart);
+        let randomRow = Math.floor(Math.random() * section.height);
+        //console.log(randomRow);
+        let randomColumn = Math.floor(Math.random() * section.width);
 
         let additionalWidth = 0;
         let additionalHeight = 0;
@@ -347,15 +344,16 @@
           additionalHeight = 1;
         }
 
+        sectionsToBuild.splice(0,1);
         if (orientation === 'horizontal') {
           //Build wall
           for (let i = section.xstart; i < section.xend; i++) {
-            document.getElementById(randomRow+'-'+i).value = 'blue';
+            document.getElementById((section.ystart+randomRow)+'-'+i).value = 'blue';
           }
           //Build door
-          document.getElementById(randomRow+'-'+randomColumn).value = '';
+          document.getElementById((section.ystart+randomRow)+'-'+(section.xstart+randomColumn)).value = '';
 
-          if (randomRow > 3) {
+          if (randomRow > 5) {
             sectionsToBuild.push({
               width: section.width,
               height: randomRow + additionalHeight,
@@ -365,7 +363,7 @@
               yend: randomRow
             });
           }
-          if (section.height - randomRow > 3) {
+          if (section.height - randomRow > 5) {
             sectionsToBuild.push({
               width: section.width,
               height: (section.yend - randomRow),
@@ -379,12 +377,12 @@
         if (orientation === 'vertical') {
           //Build wall
           for (let i = section.ystart; i < section.yend; i++) {
-            document.getElementById(i+'-'+randomColumn).value = 'blue';
+            document.getElementById(i+'-'+(section.xstart+randomColumn)).value = 'blue';
           }
           //Build door
-          document.getElementById(randomRow+'-'+randomColumn).value = '';
+          document.getElementById((section.ystart+randomRow)+'-'+(section.xstart+randomColumn)).value = '';
 
-          if (randomColumn > 3) {
+          if (randomColumn > 5) {
             sectionsToBuild.push({
               width: randomColumn + additionalWidth,
               height: section.height,
@@ -394,7 +392,7 @@
               yend: section.yend
             });
           }
-          if (section.width - randomColumn > 3) {
+          if (section.width - randomColumn > 5) {
             sectionsToBuild.push({
               width: (section.xend - randomColumn),
               height: section.height,
@@ -406,13 +404,12 @@
           }
         }
         //remove current section from sectionsToBuild
-        //sectionsToBuild.splice(0,1);
         //if all sections have been built exit function
-        if (sectionsToBuild.length === 0) {
+        if (sectionsToBuild.length <= 0) {
           return;
         }
-        console.log(sectionsToBuild);
-        //recursiveDivision(selectOrientation(sectionsToBuild[0].width, sectionsToBuild[0].height), sectionsToBuild[0]);
+        console.log(sectionsToBuild.length);
+        recursiveDivision(selectOrientation(sectionsToBuild[0].width, sectionsToBuild[0].height), sectionsToBuild[0]);
       }
 
       /*function division(orientation, numberOfRows, numberOfCols) {
@@ -450,7 +447,11 @@
       }
       function doSomething() {
 
-          division(selectOrientation(numberOfGridColumns, numberOfGridRows), numberOfGridRows, numberOfGridColumns);
+
+          recursiveDivision(selectOrientation(sectionsToBuild[0].width, sectionsToBuild[0].height), sectionsToBuild[0]);
+
+
+          //division(selectOrientation(numberOfGridColumns, numberOfGridRows), numberOfGridRows, numberOfGridColumns);
 
         //recursiveDivMaze();
       }
@@ -500,7 +501,7 @@
     document.getElementById('red').addEventListener('click', changeMouseState);
     document.getElementById('blue').addEventListener('click', changeMouseState);
     document.getElementById('green').addEventListener('click', changeMouseState);
-    document.getElementById('maze').addEventListener('click', recursiveDivision(selectOrientation(sectionsToBuild[0].width, sectionsToBuild[0].height), sectionsToBuild[0]));
+    document.getElementById('maze').addEventListener('click', doSomething);
     //document.getElementById('start').addEventListener('click', findGreen);
     document.getElementById('start-dijkstra').addEventListener('click', dijkstra);
     document.getElementById('reset').addEventListener('click', resetGrid);
