@@ -577,6 +577,11 @@
 
         maze.push(source);
         console.log(maze);
+        let adjacentNodes = getAdjacentNodes(source);
+        for (let i = 0; i < adjacentNodes.length; i++) {
+          walls.push(adjacentNodes[i]);
+        }
+        console.log(walls)
 
 
 
