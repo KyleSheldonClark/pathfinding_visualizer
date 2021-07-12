@@ -124,7 +124,7 @@
         strSet = [];
         document.getElementById('red').disabled = false;
         document.getElementById('green').disabled = false;
-        document.getElementById('start').disabled = false;
+        document.getElementById('start-dijkstra').disabled = false;
         document.getElementById('reset').disabled = true;
       }
 
@@ -149,7 +149,7 @@
       }
 
 
-      //takes in a node(object) and returns an array containing all adjacent nodes
+      //takes in a node(object) and returns an array of adjacent nodes
       function getAdjacentNodes(node) {
         let nodeToCheck = node.name.split('-');
         let nodeRow = parseInt(nodeToCheck[0]);
@@ -175,28 +175,28 @@
           if (adjacentNodeRow > numberOfGridRows-1 || adjacentNodeRow < 0 || adjacentNodeCol > numberOfGridColumns-1 || adjacentNodeCol < 0) {
             continue;
           }
-          adjacentNodeId = adjacentNodeRow*numberOfGridColumns + adjacentNodeCol;
-          adjacentNodes.push(nodes[adjacentNodeId]);
-          let isEnd = updateAdjacentNode(adjacentNodeRow, adjacentNodeCol, adjacentNodeId, node);
-          if (isEnd) {
-            return true;
-          }
+          adjacentNodes.push(findNodeByName(adjacentNodeRow+'-'+adjacentNodeCol));
       }
-      return false;
+      return adjacentNodes;
     }
 
+      //Updates a given node's value
       //----TODO----Possibly add functionality to check diagonal adjacent nodes as well
-      function updateAdjacentNode(nodeRow, nodeColumn, nodeId, previousNode) {
+      function updateAdjacentNode(currentNode, previousNode) {
+          let nodeToCheck = currentNode.name.split('-');
+          let nodeRow = parseInt(nodeToCheck[0]);
+          let nodeColumn = parseInt(nodeToCheck[1]);
+
           let squareValue = document.getElementById(nodeRow+'-'+nodeColumn).value;
           if (squareValue !== 'red' && squareValue !== 'blue') {
             //update adjacent nodes distanceFromStart and closestNode if the new distanceFromStart is less than the current distanceFromStart
-            let distanceToCheck = previousNode.distanceFromStart + nodes[nodeId].uToV;
-            if (nodes[nodeId].distanceFromStart > distanceToCheck) {
-              nodes[nodeId].distanceFromStart = distanceToCheck;
-              nodes[nodeId].closestNode = previousNode.name;
+            let distanceToCheck = previousNode.distanceFromStart + currentNode.uToV;
+            if (currentNode.distanceFromStart > distanceToCheck) {
+              currentNode.distanceFromStart = distanceToCheck;
+              currentNode.closestNode = previousNode.name;
             }
-            if (nodes[nodeId].name === greenNode) {
-              setTimeout(getShortestPath, counter*10, nodes[nodeId]);
+            if (currentNode.name === greenNode) {
+              setTimeout(getShortestPath, counter*10, currentNode);
               return true;
             }
 
@@ -207,6 +207,7 @@
             //adjacentNodes.push(nodes[adjacentNodeId]);
             counter++;
           }
+          return false;
       }
 
       function updateNodeValue(nodeRow, nodeCol, value) {
@@ -244,10 +245,14 @@
 
           //find better way of checking if green node was found
           //currently doesn't add green node to strSet
-          let isEnd = getAdjacentNodes(u);
-          if (isEnd) {
-            document.getElementById('reset').disabled = false;
-            break;
+          //seperating getAdjacentNodes and updateAdjacentNode doubled the amount of operations performed
+          let adjacentNodes = getAdjacentNodes(u);
+          for (let i = 0; i < adjacentNodes.length; i++) {
+            let isEnd = updateAdjacentNode(adjacentNodes[i], u);
+            if (isEnd) {
+              document.getElementById('reset').disabled = false;
+              return;
+            }
           }
 
         }
@@ -540,7 +545,7 @@
         }
       }
       function doSomething() {
-          randomPrimsMaze(0,0);
+          randomPrimsMaze(nodes[0],0);
           //divide(0, 0, numberOfGridColumns, numberOfGridRows, selectOrientation(numberOfGridColumns, numberOfGridRows));
           //recursiveDivision(selectOrientation(sectionsToBuild[0].width, sectionsToBuild[0].height), sectionsToBuild[0]);
 
@@ -571,6 +576,7 @@
         }
 
         maze.push(source);
+        console.log(maze);
 
 
 
