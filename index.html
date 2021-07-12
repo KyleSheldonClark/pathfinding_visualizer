@@ -150,7 +150,7 @@
 
 
       //takes in a node(object) and returns an array of adjacent nodes
-      function getAdjacentNodes(node) {
+      function getAdjacentNodes(node, spacing) {
         let nodeToCheck = node.name.split('-');
         let nodeRow = parseInt(nodeToCheck[0]);
         let nodeCol = parseInt(nodeToCheck[1]);
@@ -160,19 +160,23 @@
         let adjacentNodes = [];
         for (let i = 0; i < 4; i++) {
           if (i === 0) {
-            adjacentNodeRow = (nodeRow-1);
+            adjacentNodeRow = (nodeRow-spacing);
             adjacentNodeCol = (nodeCol);
           } else if (i === 1) {
             adjacentNodeRow = (nodeRow);
-            adjacentNodeCol = (nodeCol+1);
+            adjacentNodeCol = (nodeCol+spacing);
           } else if (i === 2) {
-            adjacentNodeRow = (nodeRow+1);
+            adjacentNodeRow = (nodeRow+spacing);
             adjacentNodeCol = (nodeCol);
           } else if (i === 3) {
             adjacentNodeRow = (nodeRow);
-            adjacentNodeCol = (nodeCol-1);
+            adjacentNodeCol = (nodeCol-spacing);
           }
           if (adjacentNodeRow > numberOfGridRows-1 || adjacentNodeRow < 0 || adjacentNodeCol > numberOfGridColumns-1 || adjacentNodeCol < 0) {
+            continue;
+          }
+          let squareValue = document.getElementById(adjacentNodeRow+'-'+adjacentNodeCol).value
+          if (squareValue === 'blue') {
             continue;
           }
           adjacentNodes.push(findNodeByName(adjacentNodeRow+'-'+adjacentNodeCol));
@@ -246,7 +250,7 @@
           //find better way of checking if green node was found
           //currently doesn't add green node to strSet
           //seperating getAdjacentNodes and updateAdjacentNode doubled the amount of operations performed
-          let adjacentNodes = getAdjacentNodes(u);
+          let adjacentNodes = getAdjacentNodes(u, 1);
           for (let i = 0; i < adjacentNodes.length; i++) {
             let isEnd = updateAdjacentNode(adjacentNodes[i], u);
             if (isEnd) {
@@ -545,7 +549,7 @@
         }
       }
       function doSomething() {
-          randomPrimsMaze(nodes[0],0);
+          randomPrimsMaze(nodes[10],0);
           //divide(0, 0, numberOfGridColumns, numberOfGridRows, selectOrientation(numberOfGridColumns, numberOfGridRows));
           //recursiveDivision(selectOrientation(sectionsToBuild[0].width, sectionsToBuild[0].height), sectionsToBuild[0]);
 
@@ -574,14 +578,17 @@
             updateNodeValue(i, j, 'blue');
           }
         }
-
+        document.getElementById(source.name).value = '';
         maze.push(source);
-        console.log(maze);
-        let adjacentNodes = getAdjacentNodes(source);
+        console.log(document.getElementById(source.name).value === '');
+        let adjacentNodes = getAdjacentNodes(source, 2);
         for (let i = 0; i < adjacentNodes.length; i++) {
           walls.push(adjacentNodes[i]);
+          console.log(adjacentNodes[i])
         }
-        console.log(walls)
+
+
+
 
 
 
