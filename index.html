@@ -148,10 +148,8 @@
         return nodes[nodeId];
       }
 
-      //takes in a node(object) and returns an array containing all adjacent nodes
-      //----TODO----Possibly add functionality to check diagonal adjacent nodes as well
-      function updateAdjacentNodes(node) {
 
+      function getAdjacentNodes(node) {
         let nodeToCheck = node.name.split('-');
         let nodeRow = parseInt(nodeToCheck[0]);
         let nodeCol = parseInt(nodeToCheck[1]);
@@ -177,10 +175,16 @@
             continue;
           }
           adjacentNodeId = adjacentNodeRow*numberOfGridColumns + adjacentNodeCol;
-
+          adjacentNodes.push(nodes[adjacentNodeId]);
+      }
+      return adjacentNodes;
+    }
+      //takes in a node(object) and returns an array containing all adjacent nodes
+      //----TODO----Possibly add functionality to check diagonal adjacent nodes as well
+      function updateAdjacentNodes(node) {
 
           let squareValue = document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value;
-          if (squareValue !== 'red' & squareValue !== 'blue') {
+          if (squareValue !== 'red' && squareValue !== 'blue') {
             //update adjacent nodes distanceFromStart and closestNode if the new distanceFromStart is less than the current distanceFromStart
             let distanceToCheck = node.distanceFromStart + nodes[adjacentNodeId].uToV;
             if (nodes[adjacentNodeId].distanceFromStart > distanceToCheck) {
@@ -554,12 +558,20 @@
             add adjacent unvisited cells to wall list
             remove cell from wall list
       */
+      const maze = [];
+      const walls = [];
       function randomPrimsMaze(source, target) {
+
         for (let i = 0; i < numberOfGridRows; i++) {
           for (let j = 0; j < numberOfGridColumns; j++) {
             updateNodeValue(i, j, 'blue');
           }
         }
+
+        maze.push(source);
+
+
+
       }
 
 
