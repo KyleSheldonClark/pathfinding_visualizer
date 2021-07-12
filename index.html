@@ -149,6 +149,7 @@
       }
 
 
+      //takes in a node(object) and returns an array containing all adjacent nodes
       function getAdjacentNodes(node) {
         let nodeToCheck = node.name.split('-');
         let nodeRow = parseInt(nodeToCheck[0]);
@@ -176,35 +177,36 @@
           }
           adjacentNodeId = adjacentNodeRow*numberOfGridColumns + adjacentNodeCol;
           adjacentNodes.push(nodes[adjacentNodeId]);
+          let isEnd = updateAdjacentNode(adjacentNodeRow, adjacentNodeCol, adjacentNodeId, node);
+          if (isEnd) {
+            return true;
+          }
       }
-      return adjacentNodes;
+      return false;
     }
-      //takes in a node(object) and returns an array containing all adjacent nodes
-      //----TODO----Possibly add functionality to check diagonal adjacent nodes as well
-      function updateAdjacentNodes(node) {
 
-          let squareValue = document.getElementById(adjacentNodeRow + '-' + adjacentNodeCol).value;
+      //----TODO----Possibly add functionality to check diagonal adjacent nodes as well
+      function updateAdjacentNode(nodeRow, nodeColumn, nodeId, previousNode) {
+          let squareValue = document.getElementById(nodeRow+'-'+nodeColumn).value;
           if (squareValue !== 'red' && squareValue !== 'blue') {
             //update adjacent nodes distanceFromStart and closestNode if the new distanceFromStart is less than the current distanceFromStart
-            let distanceToCheck = node.distanceFromStart + nodes[adjacentNodeId].uToV;
-            if (nodes[adjacentNodeId].distanceFromStart > distanceToCheck) {
-              nodes[adjacentNodeId].distanceFromStart = distanceToCheck;
-              nodes[adjacentNodeId].closestNode = node.name;
+            let distanceToCheck = previousNode.distanceFromStart + nodes[nodeId].uToV;
+            if (nodes[nodeId].distanceFromStart > distanceToCheck) {
+              nodes[nodeId].distanceFromStart = distanceToCheck;
+              nodes[nodeId].closestNode = previousNode.name;
             }
-            if (nodes[adjacentNodeId].name === greenNode) {
-              setTimeout(getShortestPath, counter*10, nodes[adjacentNodeId]);
+            if (nodes[nodeId].name === greenNode) {
+              setTimeout(getShortestPath, counter*10, nodes[nodeId]);
               return true;
             }
 
             //*Bug for some reason setTimeout excludes all ids ending in 39 ex: n-39 and doesnt update the value
             //*also for some reason when greenNode is on the right side program stops 2 nodes before if its on left it stops at the greenNode
             //instead of passing an anonymous function passing a named function as parameters fixed both issues
-            setTimeout(updateNodeValue, counter*10, adjacentNodeRow, adjacentNodeCol, 'orange')
+            setTimeout(updateNodeValue, counter*10, nodeRow, nodeColumn, 'orange')
             //adjacentNodes.push(nodes[adjacentNodeId]);
             counter++;
           }
-        }
-        return false;
       }
 
       function updateNodeValue(nodeRow, nodeCol, value) {
@@ -242,7 +244,7 @@
 
           //find better way of checking if green node was found
           //currently doesn't add green node to strSet
-          let isEnd = updateAdjacentNodes(u);
+          let isEnd = getAdjacentNodes(u);
           if (isEnd) {
             document.getElementById('reset').disabled = false;
             break;
