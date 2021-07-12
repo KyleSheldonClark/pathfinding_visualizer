@@ -435,6 +435,89 @@
           division(selectOrientation(randCol, numberOfRows), numberOfRows, randCol);
         }
       }*/
+      /*function divide(x, y, width, height, orientation) {
+        if (width < 3 || height < 3) {
+          return;
+        }
+        const randomHeight = Math.floor(Math.random()*(height-2));
+        const randomWidth = Math.floor(Math.random()*(width-2));
+
+        let horizontal = orientation === 'horizontal';
+
+        let wx = 0;
+        let wy = 0;
+
+        let px = 0;
+        let py = 0;
+
+        let wallLength = 0;
+
+        let dx = 0;
+        let dy = 1;
+
+
+        if (horizontal) {
+          wx = x + 0;
+          wy = y + randomHeight;
+
+          px = x + randomWidth;
+          py = y + 0;
+
+          wallLength = width;
+
+          dx = 1;
+          dy = 0;
+        } else {
+          wx = x + randomWidth;
+          wy = y + 0;
+
+          px = x + 0;
+          py = y + randomHeight;
+
+          wallLength = height;
+
+          dx = 0;
+          dy = 1;
+        }
+
+        console.log(wy+'-'+wx);
+        for (let i = 0; i < wallLength-2; i++) {
+          document.getElementById(wy+'-'+wx).value = 'blue';
+          if (wx !== px || wy !== py) {
+            wx += dx;
+            wy += dy;
+          }
+        }
+
+        let nx = x;
+        let ny = y;
+        let w = 0;
+        let h = 0;
+
+        if (horizontal) {
+          w = width;
+          h = wy-y+1;
+        } else {
+          w = wx-x+1;
+          h = height;
+        }
+
+        divide(nx, ny, w, h, selectOrientation(w, h));
+
+        if (horizontal) {
+          w = width;
+          h = y+height-wy-1;
+          nx = x;
+          ny = wy+1
+        } else {
+          w = x+width-wx-1;
+          h = height;
+          nx = wx+1;
+          ny = wy+1;
+        }
+
+        divide(nx, ny, w, h, selectOrientation(w, h));
+      }*/
 
       function selectOrientation(width, height) {
         if (width > height) {
@@ -442,19 +525,44 @@
         } else if (width < height) {
           return 'horizontal';
         } else {
-          return 'vertical';
+          let randomOrientation = Math.floor(Math.random()*2);
+          if (randomOrientation === 0) {
+            return 'vertical';
+          } else {
+            return 'horizontal';
+          }
         }
       }
       function doSomething() {
-
-
-          recursiveDivision(selectOrientation(sectionsToBuild[0].width, sectionsToBuild[0].height), sectionsToBuild[0]);
+          randomPrimsMaze(0,0);
+          //divide(0, 0, numberOfGridColumns, numberOfGridRows, selectOrientation(numberOfGridColumns, numberOfGridRows));
+          //recursiveDivision(selectOrientation(sectionsToBuild[0].width, sectionsToBuild[0].height), sectionsToBuild[0]);
 
 
           //division(selectOrientation(numberOfGridColumns, numberOfGridRows), numberOfGridRows, numberOfGridColumns);
 
         //recursiveDivMaze();
       }
+
+      //Prims
+      /*
+        Start with grid full of walls
+        Pick a cell and mark it as part of the maze, add adjacent walls to list of walls
+        while list of walls > 0
+          pick a random wall from the list. if only one adjacent cell is visited
+            add cell to maze
+            add adjacent unvisited cells to wall list
+            remove cell from wall list
+      */
+      function randomPrimsMaze(source, target) {
+        for (let i = 0; i < numberOfGridRows; i++) {
+          for (let j = 0; j < numberOfGridColumns; j++) {
+            updateNodeValue(i, j, 'blue');
+          }
+        }
+      }
+
+
 
       //test function to find the green squre
       //*issues
