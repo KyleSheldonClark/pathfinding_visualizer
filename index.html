@@ -42,6 +42,7 @@
       //counter for dijkstra animation setTimeout calculation
       let counter = 0;
       //------------------------------------------
+      //44 &26
       let numberOfGridColumns = 44;
       let numberOfGridRows = 26;
       //----TODO----remove default value after testing
@@ -173,10 +174,6 @@
             adjacentNodeCol = (nodeCol-spacing);
           }
           if (adjacentNodeRow > numberOfGridRows-1 || adjacentNodeRow < 0 || adjacentNodeCol > numberOfGridColumns-1 || adjacentNodeCol < 0) {
-            continue;
-          }
-          let squareValue = document.getElementById(adjacentNodeRow+'-'+adjacentNodeCol).value
-          if (squareValue === 'blue') {
             continue;
           }
           adjacentNodes.push(findNodeByName(adjacentNodeRow+'-'+adjacentNodeCol));
@@ -569,9 +566,9 @@
             add adjacent unvisited cells to wall list
             remove cell from wall list
       */
-      const maze = [];
-      const walls = [];
       function randomPrimsMaze(source, target) {
+        let maze = [];
+        let walls = [];
 
         for (let i = 0; i < numberOfGridRows; i++) {
           for (let j = 0; j < numberOfGridColumns; j++) {
@@ -580,15 +577,28 @@
         }
         document.getElementById(source.name).value = '';
         maze.push(source);
-        console.log(document.getElementById(source.name).value === '');
-        let adjacentNodes = getAdjacentNodes(source, 2);
+        let adjacentNodes = getAdjacentNodes(source, 1);
         for (let i = 0; i < adjacentNodes.length; i++) {
           walls.push(adjacentNodes[i]);
-          console.log(adjacentNodes[i])
         }
 
+        while (walls.length > 0) {
+          console.log(walls.length);
+          let randomId = Math.floor(Math.random()*walls.length);
+          let currentNode = walls[randomId];
+          let neighbours = [];
+          let currentNodeToCheck = currentNode.name.split('-');
+          let currentNodeRow = parseInt(currentNodeToCheck[0]);
+          let currentNodeColumn = parseInt(currentNodeToCheck[1]);
+          let numberOfConnected = 0;
 
 
+
+          //if current node has only 1 connected in maze
+          neighbours = getAdjacentNodes(currentNode, 1)
+      
+        }
+        console.log(maze);
 
 
 
