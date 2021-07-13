@@ -117,6 +117,7 @@
         for (let i = 0; i < numberOfGridRows; i++) {
           for (let j = 0; j < numberOfGridColumns; j++) {
             updateNodeValue(i, j, '');
+            document.getElementById(i+'-'+j).classList.remove('visited')
             let currentNode = findNodeByName(i+'-'+j);
             currentNode.closestNode = '';
             currentNode.distanceFromStart = Infinity;
@@ -126,7 +127,6 @@
         document.getElementById('red').disabled = false;
         document.getElementById('green').disabled = false;
         document.getElementById('start-dijkstra').disabled = false;
-        document.getElementById('reset').disabled = true;
       }
 
       //creates object for every node with a name corresponding to the square's id and places it in nodes array
@@ -251,7 +251,6 @@
           for (let i = 0; i < adjacentNodes.length; i++) {
             let isEnd = updateAdjacentNode(adjacentNodes[i], u);
             if (isEnd) {
-              document.getElementById('reset').disabled = false;
               return;
             }
           }
