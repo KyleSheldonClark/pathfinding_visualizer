@@ -576,32 +576,43 @@
           }
         }
         document.getElementById(source.name).value = '';
+        document.getElementById(source.name).classList.add('visited');
         maze.push(source);
         let adjacentNodes = getAdjacentNodes(source, 1);
         for (let i = 0; i < adjacentNodes.length; i++) {
           walls.push(adjacentNodes[i]);
+          document.getElementById(adjacentNodes[i].name).classList.add('visited');
         }
 
         while (walls.length > 0) {
-          console.log(walls.length);
           let randomId = Math.floor(Math.random()*walls.length);
           let currentNode = walls[randomId];
-          let neighbours = [];
           let currentNodeToCheck = currentNode.name.split('-');
           let currentNodeRow = parseInt(currentNodeToCheck[0]);
           let currentNodeColumn = parseInt(currentNodeToCheck[1]);
           let numberOfConnected = 0;
 
-
-
-          //if current node has only 1 connected in maze
-          neighbours = getAdjacentNodes(currentNode, 1)
-      
+          //get all neighbours of the current node
+          let neighbours = getAdjacentNodes(currentNode, 1)
+          //create new array that will only contain neighbours that have not yet been visited
+          let newWalls = [];
+          for (let i = 0; i < neighbours.length; i++) {
+            //check if neighbour is part of the maze if so numberOfConnected++
+            if (document.getElementById(neighbours[i].name).value === '') {
+              numberOfConnected++;
+            } else if (!document.getElementById(neighbours[i].name).classList.contains('visited')) {
+              document.getElementById(neighbours[i].name).classList.add('visited');
+              newWalls.push(neighbours[i]);
+            }
+          }
+          //if currentNode has only one connected node add to maze and add adjacent non-visited walls to walls array
+          if (numberOfConnected === 1) {
+            document.getElementById(currentNode.name).value = '';
+            maze.push(currentNode);
+            walls.push(...newWalls);
+          }
+          walls.splice(randomId, 1);
         }
-        console.log(maze);
-
-
-
       }
 
 
