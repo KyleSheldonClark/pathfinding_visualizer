@@ -164,25 +164,30 @@
         let adjacentNodeRow;
         let adjacentNodeCol;
         let adjacentNodeId;
+        let direction;
         let adjacentNodes = [];
         for (let i = 0; i < 4; i++) {
           if (i === 0) {
+            direction = 'top';
             adjacentNodeRow = (nodeRow-spacing);
             adjacentNodeCol = (nodeCol);
           } else if (i === 1) {
+            direction = 'right';
             adjacentNodeRow = (nodeRow);
             adjacentNodeCol = (nodeCol+spacing);
           } else if (i === 2) {
+            direction = 'bottom';
             adjacentNodeRow = (nodeRow+spacing);
             adjacentNodeCol = (nodeCol);
           } else if (i === 3) {
+            direction = 'left';
             adjacentNodeRow = (nodeRow);
             adjacentNodeCol = (nodeCol-spacing);
           }
           if (adjacentNodeRow > numberOfGridRows-1 || adjacentNodeRow < 0 || adjacentNodeCol > numberOfGridColumns-1 || adjacentNodeCol < 0) {
             continue;
           }
-          adjacentNodes.push(findNodeByName(adjacentNodeRow+'-'+adjacentNodeCol));
+          adjacentNodes.push([findNodeByName(adjacentNodeRow+'-'+adjacentNodeCol), direction]);
       }
       return adjacentNodes;
     }
@@ -252,21 +257,21 @@
         //let adjacentNodes = getAdjacentNodes(nodes[300]);
         while (strSet.length < nodes.length) {
           let lowestDistance = Infinity;
-          let u;
+          let nodeWithLowestDistance;
           for (let i = 0; i < nodes.length; i++) {
             if (nodes[i].distanceFromStart < lowestDistance && !strSet.includes(nodes[i])) {
               lowestDistance = nodes[i].distanceFromStart;
-              u = nodes[i];
+              nodeWithLowestDistance = nodes[i];
             }
           }
-          strSet.push(u);
+          strSet.push(nodeWithLowestDistance);
           //find better way of checking if green node was found
           //currently doesn't add green node to strSet
           //seperating getAdjacentNodes and updateAdjacentNode doubled the amount of operations performed
-          let adjacentNodes = getAdjacentNodes(u, 1);
+          let adjacentNodes = getAdjacentNodes(nodeWithLowestDistance, 1);
           //----TODO----move isEnd check to if u isEnd above
           for (let i = 0; i < adjacentNodes.length; i++) {
-            let isEnd = updateAdjacentNode(adjacentNodes[i], u);
+            let isEnd = updateAdjacentNode(adjacentNodes[i][0], nodeWithLowestDistance);
             if (isEnd) {
               return;
             }
@@ -298,7 +303,7 @@
 
           let adjacentNodes = getAdjacentNodes(nodeWithLowestDistance, 1);
           for (let i = 0; i < adjacentNodes.length; i++) {
-            let isEnd = updateAdjacentNode(adjacentNodes[i], nodeWithLowestDistance);
+            let isEnd = updateAdjacentNode(adjacentNodes[i][0], nodeWithLowestDistance);
             if (isEnd) {
               return;
             }
@@ -628,8 +633,8 @@
         maze.push(source);
         let adjacentNodes = getAdjacentNodes(source, 1);
         for (let i = 0; i < adjacentNodes.length; i++) {
-          walls.push(adjacentNodes[i]);
-          document.getElementById(adjacentNodes[i].name).classList.add('visited');
+          walls.push(adjacentNodes[i][0]);
+          document.getElementById(adjacentNodes[i][0].name).classList.add('visited');
         }
 
         while (walls.length > 0) {
@@ -646,14 +651,17 @@
           let newWalls = [];
           for (let i = 0; i < neighbours.length; i++) {
             //check if neighbour is part of the maze if so numberOfConnected++
-            if (document.getElementById(neighbours[i].name).value === '') {
+            if (document.getElementById(neighbours[i][0].name).value === '') {
               numberOfConnected++;
-            } else if (!document.getElementById(neighbours[i].name).classList.contains('visited')) {
-              document.getElementById(neighbours[i].name).classList.add('visited');
-              newWalls.push(neighbours[i]);
+            } else if (!document.getElementById(neighbours[i][0].name).classList.contains('visited')) {
+              document.getElementById(neighbours[i][0].name).classList.add('visited');
+              newWalls.push(neighbours[i][0]);
             }
           }
           //if currentNode has only one connected node add to maze and add adjacent non-visited walls to walls array
+          let nodeName = splitNodeName(currentNode.name);
+          let nodeRow = nodeName[0];
+          let nodeColumn = nodeName[1];
           if (numberOfConnected === 1) {
             document.getElementById(currentNode.name).value = '';
             maze.push(currentNode);
