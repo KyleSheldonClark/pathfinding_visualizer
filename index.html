@@ -169,25 +169,40 @@
         for (let i = 0; i < 4; i++) {
           if (i === 0) {
             direction = 'top';
-            adjacentNodeRow = (nodeRow-spacing);
+            adjacentNodeRow = (nodeRow-1);
             adjacentNodeCol = (nodeCol);
+            adjacentNodeRow2 = (nodeRow-2);
+            adjacentNodeCol2 = (nodeCol);
           } else if (i === 1) {
             direction = 'right';
             adjacentNodeRow = (nodeRow);
-            adjacentNodeCol = (nodeCol+spacing);
+            adjacentNodeCol = (nodeCol+1);
+            adjacentNodeRow2 = (nodeRow);
+            adjacentNodeCol2 = (nodeCol+2);
           } else if (i === 2) {
             direction = 'bottom';
-            adjacentNodeRow = (nodeRow+spacing);
+            adjacentNodeRow = (nodeRow+1);
             adjacentNodeCol = (nodeCol);
+            adjacentNodeRow2 = (nodeRow+2);
+            adjacentNodeCol2 = (nodeCol);
           } else if (i === 3) {
             direction = 'left';
             adjacentNodeRow = (nodeRow);
-            adjacentNodeCol = (nodeCol-spacing);
+            adjacentNodeCol = (nodeCol-1);
+            adjacentNodeRow2 = (nodeRow);
+            adjacentNodeCol2 = (nodeCol-2);
           }
           if (adjacentNodeRow > numberOfGridRows-1 || adjacentNodeRow < 0 || adjacentNodeCol > numberOfGridColumns-1 || adjacentNodeCol < 0) {
             continue;
           }
-          adjacentNodes.push([findNodeByName(adjacentNodeRow+'-'+adjacentNodeCol), direction]);
+          if (spacing === 1) {
+            adjacentNodes.push([findNodeByName(adjacentNodeRow+'-'+adjacentNodeCol), direction]);
+          } else if (spacing === 2) {
+            if (adjacentNodeRow2 > numberOfGridRows-1 || adjacentNodeRow2 < 0 || adjacentNodeCol2 > numberOfGridColumns-1 || adjacentNodeCol2 < 0) {
+              continue;
+            }
+            adjacentNodes.push([findNodeByName(adjacentNodeRow+'-'+adjacentNodeCol), findNodeByName(adjacentNodeRow2+'-'+adjacentNodeCol2), direction]);
+          }
       }
       return adjacentNodes;
     }
@@ -620,6 +635,7 @@
             remove cell from wall list
       */
       function randomPrimsMaze(source, target) {
+        //don't really need maze array as items currently in maze are represented as having a value of ''
         let maze = [];
         let walls = [];
 
@@ -631,13 +647,16 @@
         document.getElementById(source.name).value = '';
         document.getElementById(source.name).classList.add('visited');
         maze.push(source);
-        let adjacentNodes = getAdjacentNodes(source, 1);
+        //get all adjacent nodes within a distance of 2 squares
+        let adjacentNodes = getAdjacentNodes(source, 2);
+        //for each adjacentNode with a distance of 2 squares from source add to walls array and mark as visited
         for (let i = 0; i < adjacentNodes.length; i++) {
-          walls.push(adjacentNodes[i][0]);
-          document.getElementById(adjacentNodes[i][0].name).classList.add('visited');
+          walls.push(adjacentNodes[i][1]);
+          document.getElementById(adjacentNodes[i][1].name).classList.add('visited');
         }
 
         while (walls.length > 0) {
+          //choose random wall from walls array
           let randomId = Math.floor(Math.random()*walls.length);
           let currentNode = walls[randomId];
           let currentNodeToCheck = currentNode.name.split('-');
@@ -645,28 +664,44 @@
           let currentNodeColumn = parseInt(currentNodeToCheck[1]);
           let numberOfConnected = 0;
 
-          //get all neighbours of the current node
-          let neighbours = getAdjacentNodes(currentNode, 1)
+          //get all neighbours within 2 squares of the current node
+          let neighbours = getAdjacentNodes(currentNode, 2)
           //create new array that will only contain neighbours that have not yet been visited
           let newWalls = [];
+          let directionArray = [];
           for (let i = 0; i < neighbours.length; i++) {
-            //check if neighbour is part of the maze if so numberOfConnected++
-            if (document.getElementById(neighbours[i][0].name).value === '') {
-              numberOfConnected++;
-            } else if (!document.getElementById(neighbours[i][0].name).classList.contains('visited')) {
-              document.getElementById(neighbours[i][0].name).classList.add('visited');
-              newWalls.push(neighbours[i][0]);
+            //check if neighbour is part of the maze if so add direction from current to array of maze nodes that are neighbours
+            if (document.getElementById(neighbours[i][1].name).value === '') {
+              directionArray.push(neighbours[i][2]);
+            //if a neighbour has not been visited mark as visited and add to array of just visited walls
+            } else if (!document.getElementById(neighbours[i][1].name).classList.contains('visited')) {
+              document.getElementById(neighbours[i][1].name).classList.add('visited');
+              newWalls.push(neighbours[i][1]);
             }
           }
-          //if currentNode has only one connected node add to maze and add adjacent non-visited walls to walls array
           let nodeName = splitNodeName(currentNode.name);
           let nodeRow = nodeName[0];
           let nodeColumn = nodeName[1];
-          if (numberOfConnected === 1) {
-            document.getElementById(currentNode.name).value = '';
-            maze.push(currentNode);
-            walls.push(...newWalls);
+          //choose random direction from array of neighbours currently part of the maze
+          let direction = directionArray[Math.floor(Math.random()*directionArray.length)];
+
+          if (direction === 'top') {
+            document.getElementById((nodeRow-1) + '-' + nodeColumn).value = '';
+            maze.push(findNodeByName((nodeRow-1) + '-' + nodeColumn));
+          } else if (direction === 'bottom') {
+            document.getElementById((nodeRow+1) + '-' + nodeColumn).value = '';
+            maze.push(findNodeByName((nodeRow+1) + '-' + nodeColumn));
+          } else if (direction === 'left') {
+            document.getElementById(nodeRow + '-' + (nodeColumn-1)).value = '';
+            maze.push(findNodeByName(nodeRow + '-' + (nodeColumn-1)));
+          } else if (direction === 'right') {
+            document.getElementById(nodeRow + '-' + (nodeColumn+1)).value = '';
+            maze.push(findNodeByName(nodeRow + '-' + (nodeColumn+1)));
           }
+          document.getElementById(currentNode.name).value = '';
+
+          maze.push(currentNode);
+          walls.push(...newWalls);
           walls.splice(randomId, 1);
         }
       }
