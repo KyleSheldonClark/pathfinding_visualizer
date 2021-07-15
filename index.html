@@ -28,6 +28,7 @@
       <div class="grid-visuals">
         <button type="button"  id="maze">Build Maze</button>
         <button type="button"  id="start-dijkstra" disabled>Visualize Dijkstra</button>
+        <button type="button"  id="start-aStar" disabled>Visualize A* Search</button>
         <button type="button"  id="reset">Reset</button>
       </div>
 
@@ -84,6 +85,7 @@
           if (greenNode !== '' && redNode !== '') {
             //document.getElementById('start').disabled = false;
             document.getElementById('start-dijkstra').disabled = false;
+            document.getElementById('start-aStar').disabled = false;
           }
         }
       }
@@ -128,7 +130,8 @@
         strSet = [];
         document.getElementById('red').disabled = false;
         document.getElementById('green').disabled = false;
-        document.getElementById('start-dijkstra').disabled = false;
+        document.getElementById('start-dijkstra').disabled = true;
+        document.getElementById('start-aStar').disabled = true;
       }
 
       //creates object for every node with a name corresponding to the square's id and places it in nodes array
@@ -155,7 +158,6 @@
 
       //takes in a node(object) and returns an array of adjacent nodes
       function getAdjacentNodes(node, spacing) {
-        //console.log(node.name)
         let nodeName = splitNodeName(node.name);
         let nodeRow = nodeName[0];
         let nodeCol = nodeName[1];
@@ -188,9 +190,9 @@
       //Updates a given node's value
       //----TODO----Possibly add functionality to check diagonal adjacent nodes as well
       function updateAdjacentNode(currentNode, previousNode) {
-          let nodeToCheck = currentNode.name.split('-');
-          let nodeRow = parseInt(nodeToCheck[0]);
-          let nodeColumn = parseInt(nodeToCheck[1]);
+          let nodeName = splitNodeName(currentNode.name)
+          let nodeRow = nodeName[0];
+          let nodeColumn = nodeName[1];
 
           let squareValue = document.getElementById(nodeRow+'-'+nodeColumn).value;
           if (squareValue !== 'red' && squareValue !== 'blue') {
@@ -203,7 +205,6 @@
               let current = splitNodeName(currentNode.name);
               let targetDistance = Math.abs(Math.abs(target[0]-current[0])+Math.abs(target[1]-current[1]));
               currentNode.distanceToTarget = targetDistance;
-              console.log(currentNode.distanceToTarget)
             }
             if (currentNode.name === greenNode) {
               setTimeout(getShortestPath, counter*10, currentNode);
@@ -245,10 +246,7 @@
       function dijkstra() {
         let startNode = findNodeByName(redNode);
         startNode.distanceFromStart = 0;
-        let target = splitNodeName(greenNode);
-        let start = splitNodeName(startNode.name);
-        let targetDistance = Math.abs(Math.abs(target[0]-start[0])+Math.abs(target[1]-start[1]));
-        startNode.distanceToTarget = targetDistance;
+
 
 
         //let adjacentNodes = getAdjacentNodes(nodes[300]);
@@ -256,8 +254,8 @@
           let lowestDistance = Infinity;
           let u;
           for (let i = 0; i < nodes.length; i++) {
-            if (nodes[i].distanceToTarget < lowestDistance && !strSet.includes(nodes[i])) {
-              lowestDistance = nodes[i].distanceToTarget;
+            if (nodes[i].distanceFromStart < lowestDistance && !strSet.includes(nodes[i])) {
+              lowestDistance = nodes[i].distanceFromStart;
               u = nodes[i];
             }
           }
@@ -270,12 +268,43 @@
           for (let i = 0; i < adjacentNodes.length; i++) {
             let isEnd = updateAdjacentNode(adjacentNodes[i], u);
             if (isEnd) {
-              console.log(strSet)
               return;
             }
           }
 
         }
+      }
+
+      function aStar() {
+        const startNode = findNodeByName(redNode);
+        startNode.distanceFromStart = 0;
+        //calculate heuristic for start node
+        const target = splitNodeName(greenNode);
+        const start = splitNodeName(startNode.name);
+        let targetDistance = Math.abs(Math.abs(target[0]-start[0])+Math.abs(target[1]-start[1]));
+        startNode.distanceToTarget = targetDistance;
+
+        //
+        while (strSet.length < nodes.length) {
+          let lowestDistance = Infinity;
+          let nodeWithLowestDistance;
+          for (let i = 0; i < nodes.length; i++) {
+            if (nodes[i].distanceToTarget < lowestDistance && !strSet.includes(nodes[i])) {
+              lowestDistance = nodes[i].distanceToTarget;
+              nodeWithLowestDistance = nodes[i];
+            }
+          }
+          strSet.push(nodeWithLowestDistance);
+
+          let adjacentNodes = getAdjacentNodes(nodeWithLowestDistance, 1);
+          for (let i = 0; i < adjacentNodes.length; i++) {
+            let isEnd = updateAdjacentNode(adjacentNodes[i], nodeWithLowestDistance);
+            if (isEnd) {
+              return;
+            }
+          }
+        }
+
       }
 
 
@@ -684,6 +713,7 @@
     document.getElementById('maze').addEventListener('click', doSomething);
     //document.getElementById('start').addEventListener('click', findGreen);
     document.getElementById('start-dijkstra').addEventListener('click', dijkstra);
+    document.getElementById('start-aStar').addEventListener('click', aStar);
     document.getElementById('reset').addEventListener('click', resetGrid);
     //if click occurs change all squares the cursor passes until mouseup
     </script>
