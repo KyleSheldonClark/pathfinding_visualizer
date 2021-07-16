@@ -706,6 +706,21 @@
         }
       }
 
+      function randomDFSMaze() {
+        let nodesToCheck = [];
+        //initialize grid to be all walls
+        for (let i = 0; i < numberOfGridRows; i++) {
+          for (let j = 0; j < numberOfGridColumns; j++) {
+            updateNodeValue(i, j, 'blue');
+          }
+        }
+        let randomIndex = Math.floor(Math.random()*nodes.length);
+        let currentNode = nodes[randomIndex];
+        document.getElementById(currentNode.name).value = '';
+        document.getElementById(currentNode.name).classList.add('visited');
+        nodesToCheck.push(currentNode);
+      }
+
 
 
       //test function to find the green squre
