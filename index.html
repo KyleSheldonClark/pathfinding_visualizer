@@ -714,11 +714,31 @@
             updateNodeValue(i, j, 'blue');
           }
         }
+        //choose random start node, mark as visited, and add to nodesToCheck
         let randomIndex = Math.floor(Math.random()*nodes.length);
         let currentNode = nodes[randomIndex];
         document.getElementById(currentNode.name).value = '';
         document.getElementById(currentNode.name).classList.add('visited');
         nodesToCheck.push(currentNode);
+
+        //while there is a node with neighbours who have not been visited
+        while (nodesToCheck.length > 0) {
+          currentNode = nodesToCheck[nodesToCheck.length-1];
+
+          let neighbours = getAdjacentNodes(currentNode, 2);
+
+          let directionArray = [];
+          let numberOFUnvisited= 0;
+          //for each neighbour of current node if neighbour has not been visited add to array of unvisited neighbours
+          for (let i = 0; i < neighbours.length; i++) {
+            //check if neighbour is part of the maze if so add direction from current to array of maze nodes that are neighbours
+            if (document.getElementById(neighbours[i][1].name).value !== '') {
+              directionArray.push(neighbours[i][2]);
+              numberOFUnvisited++;
+            }
+          }
+
+        }
       }
 
 
@@ -768,7 +788,7 @@
     document.getElementById('red').addEventListener('click', changeMouseState);
     document.getElementById('blue').addEventListener('click', changeMouseState);
     document.getElementById('green').addEventListener('click', changeMouseState);
-    document.getElementById('maze').addEventListener('click', doSomething);
+    document.getElementById('maze').addEventListener('click', randomDFSMaze);
     //document.getElementById('start').addEventListener('click', findGreen);
     document.getElementById('start-dijkstra').addEventListener('click', dijkstra);
     document.getElementById('start-aStar').addEventListener('click', aStar);
