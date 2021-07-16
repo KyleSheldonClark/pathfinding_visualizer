@@ -737,7 +737,36 @@
               numberOFUnvisited++;
             }
           }
+          //if current node has no unvisited neighbours remove from nodesToCheck and get next current node
+          if (numberOFUnvisited < 1) {
+            nodesToCheck.pop();
+            continue;
+          }
+          let nodeName = splitNodeName(currentNode.name);
+          let nodeRow = nodeName[0];
+          let nodeColumn = nodeName[1];
 
+          //choose random neighbour
+          let direction = directionArray[Math.floor(Math.random()*directionArray.length)];
+
+          //connect chosen neighbour to current node, mark as visited, and add chosen neighbour to nodesToCheck
+          if (direction === 'top') {
+            document.getElementById((nodeRow-1) + '-' + nodeColumn).value = '';
+            document.getElementById((nodeRow-2) + '-' + nodeColumn).value = '';
+            nodesToCheck.push(findNodeByName((nodeRow-2) + '-' + nodeColumn));
+          } else if (direction === 'bottom') {
+            document.getElementById((nodeRow+1) + '-' + nodeColumn).value = '';
+            document.getElementById((nodeRow+2) + '-' + nodeColumn).value = '';
+            nodesToCheck.push(findNodeByName((nodeRow+2) + '-' + nodeColumn));
+          } else if (direction === 'left') {
+            document.getElementById(nodeRow + '-' + (nodeColumn-1)).value = '';
+            document.getElementById(nodeRow + '-' + (nodeColumn-2)).value = '';
+            nodesToCheck.push(findNodeByName(nodeRow + '-' + (nodeColumn-2)));
+          } else if (direction === 'right') {
+            document.getElementById(nodeRow + '-' + (nodeColumn+1)).value = '';
+            document.getElementById(nodeRow + '-' + (nodeColumn+2)).value = '';
+            nodesToCheck.push(findNodeByName(nodeRow + '-' + (nodeColumn+2)));
+          }
         }
       }
 
