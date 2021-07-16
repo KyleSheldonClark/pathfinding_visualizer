@@ -26,7 +26,8 @@
         </div>-->
       </div>
       <div class="grid-visuals">
-        <button type="button"  id="maze">Build Maze</button>
+        <button type="button"  id="prims-maze">Build Prims Maze</button>
+        <button type="button"  id="dfs-maze">Build DFS Maze</button>
         <button type="button"  id="start-dijkstra" disabled>Visualize Dijkstra</button>
         <button type="button"  id="start-aStar" disabled>Visualize A* Search</button>
         <button type="button"  id="reset">Reset</button>
@@ -817,7 +818,8 @@
     document.getElementById('red').addEventListener('click', changeMouseState);
     document.getElementById('blue').addEventListener('click', changeMouseState);
     document.getElementById('green').addEventListener('click', changeMouseState);
-    document.getElementById('maze').addEventListener('click', randomDFSMaze);
+    document.getElementById('prims-maze').addEventListener('click', doSomething);
+    document.getElementById('dfs-maze').addEventListener('click', randomDFSMaze);
     //document.getElementById('start').addEventListener('click', findGreen);
     document.getElementById('start-dijkstra').addEventListener('click', dijkstra);
     document.getElementById('start-aStar').addEventListener('click', aStar);
