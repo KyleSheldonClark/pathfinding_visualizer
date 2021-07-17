@@ -43,6 +43,54 @@ body {
   border-radius: 0.3rem;
 }
 
+.mazes {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.maze-buttons {
+  display: none;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.maze-buttons button{
+  color: black;
+  padding: 12px 16px;
+  display: block;
+}
+
+.maze-dropdown:hover .maze-buttons {
+  display: block;
+}
+
+.algorithms {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.algorithm-buttons {
+  display: none;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.algorithm-buttons button{
+  color: black;
+  padding: 12px 16px;
+  display: block;
+}
+
+.algorithm-dropdown:hover .algorithm-buttons {
+  display: block;
+}
+
 
 
 button[value="red"] {

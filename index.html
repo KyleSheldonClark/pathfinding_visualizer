@@ -26,10 +26,20 @@
         </div>-->
       </div>
       <div class="grid-visuals">
-        <button type="button"  id="prims-maze">Build Prims Maze</button>
-        <button type="button"  id="dfs-maze">Build DFS Maze</button>
-        <button type="button"  id="start-dijkstra" disabled>Visualize Dijkstra</button>
-        <button type="button"  id="start-aStar" disabled>Visualize A* Search</button>
+        <div class="maze-dropdown">
+          <button type="button"  id="mazes">Mazes</button>
+          <div class="maze-buttons">
+            <button type="button"  id="prims-maze">Build Prims Maze</button>
+            <button type="button"  id="dfs-maze">Build DFS Maze</button>
+          </div>
+        </div>
+        <div class="algorithm-dropdown">
+          <button type="button"  id="algorithms">Algorithms</button>
+          <div class="algorithm-buttons">
+            <button type="button"  id="start-dijkstra" disabled>Visualize Dijkstra</button>
+            <button type="button"  id="start-aStar" disabled>Visualize A* Search</button>
+          </div>
+        </div>
         <button type="button"  id="reset">Reset</button>
       </div>
 
