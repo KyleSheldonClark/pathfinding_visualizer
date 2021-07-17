@@ -43,52 +43,80 @@ body {
   border-radius: 0.3rem;
 }
 
-.mazes {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-}
 
 .maze-buttons {
   display: none;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0.3rem;
 }
 
 .maze-buttons button{
   color: black;
   padding: 12px 16px;
   display: block;
+  width: 10vw;
+  height: 4vw;
+  color: white;
+  background-color: rgba(106, 0, 244, 0.15);
 }
 
 .maze-dropdown:hover .maze-buttons {
   display: block;
 }
 
-.algorithms {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
+.maze-dropdown:hover #algorithms {
+  border-radius: 0.3rem 0.3rem 0 0;
+}
+
+.maze-dropdown:hover #prims-maze {
+  border-radius: 0;
+}
+
+.maze-dropdown:hover #dfs-maze {
+  border-radius: 0 0 0.3rem 0.3rem;
+}
+
+.maze-dropdown:hover ~ .algorithm-dropdown {
+  visibility: hidden;
 }
 
 .algorithm-buttons {
   display: none;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0.3rem;
 }
 
 .algorithm-buttons button{
   color: black;
   padding: 12px 16px;
   display: block;
+  width: 10vw;
+  height: 4vw;
+  color: white;
+  background-color: rgba(106, 0, 244, 0.15);
+
 }
 
 .algorithm-dropdown:hover .algorithm-buttons {
   display: block;
+}
+
+.algorithm-dropdown:hover #algorithms {
+  border-radius: 0.3rem 0.3rem 0 0;
+}
+
+.algorithm-dropdown:hover #start-dijkstra {
+  border-radius: 0;
+}
+
+.algorithm-dropdown:hover #start-astar {
+  border-radius: 0 0 0.3rem 0.3rem;
+}
+
+.algorithm-dropdown:hover ~ #reset {
+  visibility: hidden;
 }
 
 

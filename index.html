@@ -37,7 +37,7 @@
           <button type="button"  id="algorithms">Algorithms</button>
           <div class="algorithm-buttons">
             <button type="button"  id="start-dijkstra" disabled>Visualize Dijkstra</button>
-            <button type="button"  id="start-aStar" disabled>Visualize A* Search</button>
+            <button type="button"  id="start-astar" disabled>Visualize A* Search</button>
           </div>
         </div>
         <button type="button"  id="reset">Reset</button>
@@ -96,7 +96,7 @@
           if (greenNode !== '' && redNode !== '') {
             //document.getElementById('start').disabled = false;
             document.getElementById('start-dijkstra').disabled = false;
-            document.getElementById('start-aStar').disabled = false;
+            document.getElementById('start-astar').disabled = false;
           }
         }
       }
@@ -142,7 +142,7 @@
         document.getElementById('red').disabled = false;
         document.getElementById('green').disabled = false;
         document.getElementById('start-dijkstra').disabled = true;
-        document.getElementById('start-aStar').disabled = true;
+        document.getElementById('start-astar').disabled = true;
       }
 
       //creates object for every node with a name corresponding to the square's id and places it in nodes array
@@ -832,7 +832,7 @@
     document.getElementById('dfs-maze').addEventListener('click', randomDFSMaze);
     //document.getElementById('start').addEventListener('click', findGreen);
     document.getElementById('start-dijkstra').addEventListener('click', dijkstra);
-    document.getElementById('start-aStar').addEventListener('click', aStar);
+    document.getElementById('start-astar').addEventListener('click', aStar);
     document.getElementById('reset').addEventListener('click', resetGrid);
     //if click occurs change all squares the cursor passes until mouseup
     </script>
