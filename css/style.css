@@ -43,7 +43,6 @@ body {
   border-radius: 0.3rem;
 }
 
-
 .maze-buttons {
   display: none;
   position: absolute;
@@ -152,15 +151,15 @@ button {
   padding: 0;
 }
 
-#red {
+.red {
   background-color: red;
 }
 
-#blue {
+.blue {
   background-color: blue;
 }
 
-#green {
+.green {
   background-color: green;
 }
 
