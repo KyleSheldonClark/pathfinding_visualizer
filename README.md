@@ -9,9 +9,20 @@ Pathfinding Algorithms
 
 Maze Generation Algorithms
 -----------------------------
-- Randomized Prim's Algorithm
-- Randomized Depth-First Search (Iterative Implementation)
-  - Choose a random dell from the grid.
+### Randomized Prim's Algorithm
+  - Start with a grid full of walls.
+  - Choose a random cell.
+    - Mark cell as part of the maze.
+    - add all neighbours of the cell to the walls to check list.
+  - While there are walls in the list.
+    - Pick a random wall from the list.
+      - If only one of the cells the wall divides is visited:
+        - Make the wall a passage and mark the unvisited cell as part of the maze.
+        - add all neighbours of the cell to the walls to check list.
+      - Remove the wall from the walls to check list.
+
+### Randomized Depth-First Search (Iterative Implementation)
+  - Choose a random cell from the grid.
     - For this cell randomly choose one of it's unvisited neighbours.
       - remove the wall between the first cell and the chose neighbour.
       - mark the neighbour as visited, and add to the stack.
