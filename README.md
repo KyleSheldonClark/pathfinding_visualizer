@@ -4,6 +4,16 @@ Pathfinding Visualizer
 Pathfinding Algorithms
 -------------------------
 - Dijkstra's Algorithm
+  - Mark all nodes as unvisited.
+    - Assign every node a distance from start value(Zero for initial node. Infinity for all other nodes).
+    - Mark initial node as current node.
+    - For the current node.
+      - Consider all neighbouring nodes.
+      - Update neighbouring nodes distance with distance from current node plus current nodes distance from start.
+      - When all neighbours have been checked and updated mark current node as visited and remove from strSet.
+    - If the destination node has been marked visited the program stops. The algorithm is finished.
+    - Otherwise take smallest node from strSet, mark as current node and repeat above steps.
+
 - A* Search Algorithm
 
 
@@ -13,12 +23,12 @@ Maze Generation Algorithms
   - Start with a grid full of walls.
   - Choose a random cell.
     - Mark cell as part of the maze.
-    - add all neighbours of the cell to the walls to check list.
+    - Add all neighbours of the cell to the walls to check list.
   - While there are walls in the list.
     - Pick a random wall from the list.
       - If only one of the cells the wall divides is visited:
         - Make the wall a passage and mark the unvisited cell as part of the maze.
-        - add all neighbours of the cell to the walls to check list.
+        - Add all neighbours of the cell to the walls to check list.
       - Remove the wall from the walls to check list.
 
 ### Randomized Depth-First Search (Iterative Implementation)
