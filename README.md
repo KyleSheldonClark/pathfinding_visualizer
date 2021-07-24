@@ -15,6 +15,9 @@ Pathfinding Algorithms
     - Otherwise take smallest node from strSet, mark as current node and repeat above steps.
 
 - A* Search Algorithm
+  - A* search is built off of dijkstra's algorithm.
+  - The base algorithm is the same but A* uses an added heuristic. In this case it is the distance in squares from the current square to the target.
+  - Instead of choosing the current node based on distance from the start node. The current node is chosen using the distance to target heuristic.
 
 
 Maze Generation Algorithms
