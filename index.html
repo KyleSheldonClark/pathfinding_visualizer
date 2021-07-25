@@ -245,9 +245,9 @@
             //*Bug for some reason setTimeout excludes all ids ending in 39 ex: n-39 and doesnt update the value
             //*also for some reason when greenNode is on the right side program stops 2 nodes before if its on left it stops at the greenNode
             //instead of passing an anonymous function passing a named function as parameters fixed both issues
-            setTimeout(updateNodeValue, counter*10, nodeRow, nodeColumn, 'orange')
+            ///setTimeout(updateNodeValue, counter*10, nodeRow, nodeColumn, 'orange')
             //adjacentNodes.push(nodes[adjacentNodeId]);
-            counter++;
+            ///counter++;
           }
           return false;
       }
@@ -291,6 +291,9 @@
             }
           }
           strSet.push(nodeWithLowestDistance);
+          nodeWithLowestDistanceArray = splitNodeName(nodeWithLowestDistance.name);
+          setTimeout(updateNodeValue, counter*30, nodeWithLowestDistanceArray[0], nodeWithLowestDistanceArray[1], 'orange');
+          counter++;
           //find better way of checking if green node was found
           //currently doesn't add green node to strSet
           //seperating getAdjacentNodes and updateAdjacentNode doubled the amount of operations performed
@@ -326,6 +329,10 @@
             }
           }
           strSet.push(nodeWithLowestDistance);
+
+          nodeWithLowestDistanceArray = splitNodeName(nodeWithLowestDistance.name);
+          setTimeout(updateNodeValue, counter*30, nodeWithLowestDistanceArray[0], nodeWithLowestDistanceArray[1], 'orange');
+          counter++;
 
           let adjacentNodes = getAdjacentNodes(nodeWithLowestDistance, 1);
           for (let i = 0; i < adjacentNodes.length; i++) {
