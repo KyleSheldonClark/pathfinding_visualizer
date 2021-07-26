@@ -45,6 +45,10 @@ body {
   border-radius: 0.3rem;
 }
 
+.grid-visuals button:hover {
+  cursor: pointer;
+}
+
 .maze-buttons {
   display: none;
   position: absolute;
@@ -120,7 +124,17 @@ body {
   visibility: hidden;
 }
 
+#red:hover {
+  cursor: pointer;
+}
 
+#blue:hover {
+  cursor: pointer;
+}
+
+#green:hover {
+  cursor: pointer;
+}
 
 button[value="red"] {
   background-color: red;
@@ -155,14 +169,17 @@ button {
 
 .red {
   background-color: red;
+  cursor: pointer;
 }
 
 .blue {
   background-color: blue;
+  cursor: pointer;
 }
 
 .green {
   background-color: green;
+  cursor: pointer;
 }
 
 .action-buttons div {
