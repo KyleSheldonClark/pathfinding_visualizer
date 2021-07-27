@@ -145,6 +145,28 @@
         document.getElementById('start-astar').disabled = true;
       }
 
+      function resetVisualization() {
+        counter = 0;
+        index = 0;
+        for (let i = 0; i < numberOfGridRows; i++) {
+          for (let j = 0; j < numberOfGridColumns; j++) {
+            if (document.getElementById(i+'-'+j).value !== 'blue') {
+              updateNodeValue(i, j, '');
+              document.getElementById(i+'-'+j).classList.remove('visited');
+            }
+            let currentNode = findNodeByName(i+'-'+j);
+            currentNode.closestNode = '';
+            currentNode.distanceFromStart = Infinity;
+            currentNode.distanceToTarget = Infinity;
+          }
+        }
+        strSet = [];
+        document.getElementById('red').disabled = false;
+        document.getElementById('green').disabled = false;
+        document.getElementById('start-dijkstra').disabled = true;
+        document.getElementById('start-astar').disabled = true;
+      }
+
       //creates object for every node with a name corresponding to the square's id and places it in nodes array
       function buildDijkstraGraph(name) {
         nodes[nodeIndex] = {
@@ -840,7 +862,7 @@
     //document.getElementById('start').addEventListener('click', findGreen);
     document.getElementById('start-dijkstra').addEventListener('click', dijkstra);
     document.getElementById('start-astar').addEventListener('click', aStar);
-    document.getElementById('reset').addEventListener('click', resetGrid);
+    document.getElementById('reset').addEventListener('click', resetVisualization);
     //if click occurs change all squares the cursor passes until mouseup
     </script>
   </div>
