@@ -40,7 +40,8 @@
             <button type="button"  id="start-astar" disabled>Visualize A* Search</button>
           </div>
         </div>
-        <button type="button"  id="reset">Reset</button>
+        <button type="button"  id="reset">Clear Grid</button>
+        <button type="button"  id="reset-visualization">Reset Visualization</button>
       </div>
 
     </nav>
@@ -862,7 +863,8 @@
     //document.getElementById('start').addEventListener('click', findGreen);
     document.getElementById('start-dijkstra').addEventListener('click', dijkstra);
     document.getElementById('start-astar').addEventListener('click', aStar);
-    document.getElementById('reset').addEventListener('click', resetVisualization);
+    document.getElementById('reset').addEventListener('click', resetGrid);
+    document.getElementById('reset-visualization').addEventListener('click', resetVisualization);
     //if click occurs change all squares the cursor passes until mouseup
     </script>
   </div>
