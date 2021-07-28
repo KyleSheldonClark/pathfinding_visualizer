@@ -676,6 +676,8 @@
             remove cell from wall list
       */
       function randomPrimsMaze(source, target) {
+        document.getElementById('dfs-maze').disabled = true;
+        document.getElementById('prims-maze').disabled = true;
         //don't really need maze array as items currently in maze are represented as having a value of ''
         let maze = [];
         let walls = [];
@@ -748,6 +750,8 @@
       }
 
       function randomDFSMaze() {
+        document.getElementById('dfs-maze').disabled = true;
+        document.getElementById('prims-maze').disabled = true;
         let nodesToCheck = [];
         //initialize grid to be all walls
         for (let i = 0; i < numberOfGridRows; i++) {
