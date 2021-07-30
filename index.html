@@ -166,8 +166,6 @@
         strSet = [];
         document.getElementById('red').disabled = false;
         document.getElementById('green').disabled = false;
-        document.getElementById('start-dijkstra').disabled = true;
-        document.getElementById('start-astar').disabled = true;
       }
 
       //creates object for every node with a name corresponding to the square's id and places it in nodes array
@@ -284,7 +282,7 @@
       function getShortestPath(node) {
         let currentNode = node;
         let shortestPath = [];
-        while(currentNode !== redNode) {
+        while(currentNode.closestNode !== redNode) {
           shortestPath.push(currentNode);
           document.getElementById(currentNode.closestNode).value = 'yellow';
           currentNode = findNodeByName(currentNode.closestNode);
@@ -316,9 +314,11 @@
             }
           }
           strSet.push(nodeWithLowestDistance);
-          nodeWithLowestDistanceArray = splitNodeName(nodeWithLowestDistance.name);
-          setTimeout(updateNodeValue, counter*30, nodeWithLowestDistanceArray[0], nodeWithLowestDistanceArray[1], 'orange');
-          counter++;
+          const nodeWithLowestDistanceArray = splitNodeName(nodeWithLowestDistance.name);
+          if (nodeWithLowestDistance.name !== redNode) {
+            setTimeout(updateNodeValue, counter*30, nodeWithLowestDistanceArray[0], nodeWithLowestDistanceArray[1], 'orange');
+            counter++;
+          }
           //find better way of checking if green node was found
           //currently doesn't add green node to strSet
           //seperating getAdjacentNodes and updateAdjacentNode doubled the amount of operations performed
@@ -354,10 +354,11 @@
             }
           }
           strSet.push(nodeWithLowestDistance);
-
-          nodeWithLowestDistanceArray = splitNodeName(nodeWithLowestDistance.name);
-          setTimeout(updateNodeValue, counter*30, nodeWithLowestDistanceArray[0], nodeWithLowestDistanceArray[1], 'orange');
-          counter++;
+          if (nodeWithLowestDistance.name !== redNode) {
+            const nodeWithLowestDistanceArray = splitNodeName(nodeWithLowestDistance.name);
+            setTimeout(updateNodeValue, counter*30, nodeWithLowestDistanceArray[0], nodeWithLowestDistanceArray[1], 'orange');
+            counter++;
+          }
 
           let adjacentNodes = getAdjacentNodes(nodeWithLowestDistance, 1);
           for (let i = 0; i < adjacentNodes.length; i++) {
