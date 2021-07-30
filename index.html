@@ -153,7 +153,7 @@
         index = 0;
         for (let i = 0; i < numberOfGridRows; i++) {
           for (let j = 0; j < numberOfGridColumns; j++) {
-            if (document.getElementById(i+'-'+j).value !== 'blue') {
+            if (document.getElementById(i+'-'+j).value === 'yellow' || document.getElementById(i+'-'+j).value === 'orange') {
               updateNodeValue(i, j, '');
               document.getElementById(i+'-'+j).classList.remove('visited');
             }
