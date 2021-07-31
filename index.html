@@ -313,6 +313,9 @@
               nodeWithLowestDistance = nodes[i];
             }
           }
+          if (nodeWithLowestDistance.name === greenNode) {
+            return;
+          }
           strSet.push(nodeWithLowestDistance);
           const nodeWithLowestDistanceArray = splitNodeName(nodeWithLowestDistance.name);
           if (nodeWithLowestDistance.name !== redNode) {
@@ -326,9 +329,6 @@
           //----TODO----move isEnd check to if u isEnd above
           for (let i = 0; i < adjacentNodes.length; i++) {
             let isEnd = updateAdjacentNode(adjacentNodes[i][0], nodeWithLowestDistance);
-            if (isEnd) {
-              return;
-            }
           }
 
         }
