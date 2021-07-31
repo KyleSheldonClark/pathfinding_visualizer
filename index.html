@@ -74,8 +74,15 @@
       function setSquareState() {
         //only run code if mousedown or a click has occured (*possible issues with double clicks)
         if (down || event.detail > 0) {
+          if (this.value === 'red') {
+            redNode = '';
+          } else if (this.value === 'green') {
+            greenNode = '';
+          }
         //if square is green or red enable selector, set mouse state to square's value, reset square's value
           if (this.value === 'red' || this.value === 'green') {
+            document.getElementById('start-dijkstra').disabled = true;
+            document.getElementById('start-astar').disabled = true;
             document.getElementById(this.value).disabled = false;
             currMouseState = this.value;
             this.value = '';
