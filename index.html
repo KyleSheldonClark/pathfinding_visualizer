@@ -260,10 +260,6 @@
               let targetDistance = Math.abs(Math.abs(target[0]-current[0])+Math.abs(target[1]-current[1]));
               currentNode.distanceToTarget = targetDistance;
             }
-            if (currentNode.name === greenNode) {
-              setTimeout(getShortestPath, counter*30, currentNode);
-              return true;
-            }
 
             //*Bug for some reason setTimeout excludes all ids ending in 39 ex: n-39 and doesnt update the value
             //*also for some reason when greenNode is on the right side program stops 2 nodes before if its on left it stops at the greenNode
@@ -313,10 +309,13 @@
               nodeWithLowestDistance = nodes[i];
             }
           }
+          strSet.push(nodeWithLowestDistance);
+
           if (nodeWithLowestDistance.name === greenNode) {
+            setTimeout(getShortestPath, counter*30, nodeWithLowestDistance);
             return;
           }
-          strSet.push(nodeWithLowestDistance);
+
           const nodeWithLowestDistanceArray = splitNodeName(nodeWithLowestDistance.name);
           if (nodeWithLowestDistance.name !== redNode) {
             setTimeout(updateNodeValue, counter*30, nodeWithLowestDistanceArray[0], nodeWithLowestDistanceArray[1], 'orange');
@@ -328,7 +327,7 @@
           let adjacentNodes = getAdjacentNodes(nodeWithLowestDistance, 1);
           //----TODO----move isEnd check to if u isEnd above
           for (let i = 0; i < adjacentNodes.length; i++) {
-            let isEnd = updateAdjacentNode(adjacentNodes[i][0], nodeWithLowestDistance);
+            updateAdjacentNode(adjacentNodes[i][0], nodeWithLowestDistance);
           }
 
         }
