@@ -300,6 +300,9 @@
 
 
       function dijkstra() {
+        document.getElementById('start-dijkstra').disabled = true;
+        document.getElementById('start-astar').disabled = true;
+        
         let startNode = findNodeByName(redNode);
         startNode.distanceFromStart = 0;
 
@@ -340,6 +343,9 @@
       }
 
       function aStar() {
+        document.getElementById('start-dijkstra').disabled = true;
+        document.getElementById('start-astar').disabled = true;
+
         const startNode = findNodeByName(redNode);
         startNode.distanceFromStart = 0;
         //calculate heuristic for start node
