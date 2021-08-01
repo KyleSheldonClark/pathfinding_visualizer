@@ -61,6 +61,8 @@
       //----TODO----remove default value after testing
       let redNode = '';
       let greenNode = '';
+
+      let gridClear = true;
       //down keeps track of wether or not the mouse is down
       let down = false;
       document.addEventListener('mousedown', function () {down = true;});
@@ -101,7 +103,7 @@
           } else if (this.value === 'green') {
             greenNode = this.id
           }
-          if (greenNode !== '' && redNode !== '') {
+          if (greenNode !== '' && redNode !== '' && gridClear) {
             //document.getElementById('start').disabled = false;
             document.getElementById('start-dijkstra').disabled = false;
             document.getElementById('start-astar').disabled = false;
@@ -153,6 +155,8 @@
         document.getElementById('prims-maze').disabled = false;
         document.getElementById('start-dijkstra').disabled = true;
         document.getElementById('start-astar').disabled = true;
+
+        gridClear = true;
       }
 
       function resetVisualization() {
@@ -173,6 +177,8 @@
         strSet = [];
         document.getElementById('red').disabled = false;
         document.getElementById('green').disabled = false;
+
+        gridClear = true;
       }
 
       //creates object for every node with a name corresponding to the square's id and places it in nodes array
@@ -300,9 +306,10 @@
 
 
       function dijkstra() {
+        gridClear = false;
         document.getElementById('start-dijkstra').disabled = true;
         document.getElementById('start-astar').disabled = true;
-        
+
         let startNode = findNodeByName(redNode);
         startNode.distanceFromStart = 0;
 
@@ -343,6 +350,7 @@
       }
 
       function aStar() {
+        gridClear = false;
         document.getElementById('start-dijkstra').disabled = true;
         document.getElementById('start-astar').disabled = true;
 
